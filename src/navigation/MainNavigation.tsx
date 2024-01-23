@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../utils/types';
 import Home from '../screens/Home';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
