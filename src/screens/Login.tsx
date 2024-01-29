@@ -7,7 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
 import { Octicons } from '@expo/vector-icons';
@@ -36,7 +36,16 @@ const Login = () => {
           marginTop: '7.5%',
         }}
       >
-        <View style={styles.section1}></View>
+        <View
+          style={[
+            styles.section1,
+            { justifyContent: 'space-around', alignItems: 'center', paddingHorizontal: '2.5%' },
+          ]}
+        >
+          {['2.35', '133.4', '12:15'].map((item) => {
+            return <Text style={{ color: '#fff', fontSize: 32 }}>{item}</Text>;
+          })}
+        </View>
         <View
           style={{
             display: 'flex',
@@ -54,15 +63,29 @@ const Login = () => {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          height: height * 0.3,
+          height: height * 0.25,
           marginTop: '7.5%',
           marginHorizontal: '5%',
           justifyContent: 'space-between',
         }}
       >
-        <View style={[styles.section2, { height: '100%', width: width * 0.2 }]}></View>
+        <View style={[styles.section2, { height: '100%', width: width * 0.2 }]}>
+          <Octicons name='triangle-up' size={height * 0.05} color='white' />
+          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Text style={{ color: '#fff', fontSize: height * 0.05 }}>{2}</Text>
+            <Text style={{ color: '#fff', fontSize: 12 }}>{'elevation'}</Text>
+          </View>
+          <Octicons name='triangle-down' size={height * 0.05} color='white' />
+        </View>
         <View style={[styles.section2, { height: '100%', width: width * 0.4 }]}></View>
-        <View style={[styles.section2, { height: '100%', width: width * 0.2 }]}></View>
+        <View style={[styles.section2, { height: '100%', width: width * 0.2 }]}>
+          <Octicons name='triangle-up' size={height * 0.05} color='white' />
+          <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Text style={{ color: '#fff', fontSize: height * 0.05 }}>{12}</Text>
+            <Text style={{ color: '#fff', fontSize: 12 }}>{'speed'}</Text>
+          </View>
+          <Octicons name='triangle-down' size={height * 0.05} color='white' />
+        </View>
       </View>
       <View
         style={{
@@ -119,6 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#252526',
     height: height * 0.1,
+    width: '100%',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     borderWidth: 2,
@@ -127,10 +151,13 @@ const styles = StyleSheet.create({
 
   section2: {
     display: 'flex',
+    flexDirection: 'column',
     backgroundColor: '#252526',
     borderWidth: 1,
     borderColor: colors.secondary,
     borderRadius: height * 0.015,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
 
   curvedLine: {
