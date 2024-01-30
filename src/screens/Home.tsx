@@ -72,9 +72,10 @@ const Home = () => {
           >
             <Text style={{ color: colors.primary, fontSize: 18 }}>Streak</Text>
             <View style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
-              {['S', 'M', 'T', 'W'].map((item, index) => {
+              {['S', 'M', 'T', 'W', 'Th'].map((item, index) => {
                 return (
                   <View
+                    key={index}
                     style={{
                       height: height * 0.03,
                       width: height * 0.03,
@@ -140,7 +141,7 @@ const Home = () => {
             renderItem={({ item: any, index: number }) => {
               return <CircuitCard />;
             }}
-            keyExtractor={(item) => item.toString()}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
       </View>

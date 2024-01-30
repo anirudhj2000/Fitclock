@@ -1,7 +1,8 @@
 export type AuthStackParamList = {
-    Login: undefined;
+  Login: undefined;
 };
 
 export type AppStackParamList = {
-    Home : undefined;
-}
+  Home: undefined;
+  Circuits: undefined;
+};
