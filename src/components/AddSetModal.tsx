@@ -22,12 +22,14 @@ import AppTitle from './AppTitle';
 import { Dropdown } from 'react-native-element-dropdown';
 import OutlinedButton from './OutlinedButton';
 import ContainedButton from './ContainedButton';
+import { setObjectInterface } from '../utils/types';
 
 const { height, width } = Dimensions.get('window');
 
 interface ModalInterface {
   modalVisible: boolean;
   handleModalClose: () => void;
+  handleSubmit: (obj: setObjectInterface) => void;
 }
 
 const TIME = [
@@ -110,7 +112,7 @@ const data = [
   { label: 'Side Lunges', value: 'SL' },
 ];
 
-const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
+const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInterface) => {
   const [selectedType, setSelectedType] = React.useState<number>(0);
   const [selectedValue, setSelectedValue] = React.useState<string>('');
   const [restValue, setRestValue] = React.useState<string>('15 secs');
@@ -158,7 +160,37 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
     setValue('');
   };
 
-  const handleSubmit = () => {};
+  const handleAddSet = () => {
+    let obj = {
+      title: '',
+      exercise: '',
+      type: '',
+      value: 0,
+      rest: 0,
+    };
+
+    if (selectedType == 0) {
+      obj.type = 'duration';
+    } else {
+      obj.type = 'reps';
+    }
+
+    obj.value = parseInt(repValue);
+    obj.rest = parseInt(restValue);
+
+    console.log('obj set1', obj);
+
+    data.forEach((item, index) => {
+      if (item.value == value) {
+        obj.title = item.label;
+        obj.exercise = item.value;
+      }
+    });
+
+    console.log('obj set', obj);
+
+    handleSubmit(obj);
+  };
 
   return (
     <View style={{ display: 'flex' }}>
@@ -296,6 +328,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                               key={index}
                               onPress={() => {
                                 setSelectedValue(item.title);
+                                setRepValue(item.value + '');
                               }}
                               style={{
                                 backgroundColor:
@@ -317,6 +350,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                               key={index}
                               onPress={() => {
                                 setSelectedValue(item.title);
+                                setRepValue(item.value + '');
                               }}
                               style={{
                                 backgroundColor:
@@ -424,7 +458,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                   <ContainedButton
                     title={'Submit'}
                     onClick={() => {
-                      handleSubmit();
+                      handleAddSet();
                     }}
                   />
                 </View>

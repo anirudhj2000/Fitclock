@@ -16,25 +16,34 @@ import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
 import { title } from '../utils/types';
 import { Dropdown } from 'react-native-element-dropdown';
-import { AntDesign } from '@expo/vector-icons';
 import AddSetsModal from '../components/AddSetModal';
 import OutlinedButton from '../components/OutlinedButton';
 import ContainedButton from '../components/ContainedButton';
 import { Ionicons } from '@expo/vector-icons';
-import { BlurMask, Canvas, Circle, RoundedRect } from '@shopify/react-native-skia';
 import ExerciseCard from '../components/ExerciseCard';
-import { dummyCircuit } from '../utils/consts';
+import { setObjectInterface } from '../utils/types';
+import { FontAwesome, MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get('window');
 
 const r = 128;
+
+interface setObjectInterface2 extends setObjectInterface {
+  backgroundColor: string;
+}
 
 const CreateCircuits = () => {
   const [circuitTitle, setCircuitTitle] = React.useState<title>({
     title: '',
     focus: false,
   });
+  const [exercisesList, setExercisesList] = React.useState<Array<setObjectInterface2>>([]);
   const [showAddSets, setShowAddSet] = React.useState<boolean>(false);
+  const [circuitStats, setCircuitStats] = React.useState({
+    time: 0,
+    burn: 0,
+    intensity: '',
+  });
 
   const getType = (index: number, length: number) => {
     if (length == 1) {
@@ -45,6 +54,39 @@ const CreateCircuits = () => {
       else return 'end';
     }
   };
+
+  function getRandomColor() {
+    // Generate a random hex color code
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
+  const handleCircuitStats = () => {
+    let obj = {
+      time: 0,
+      burn: 0,
+      intensity: '',
+    };
+
+    let time = 0;
+    exercisesList.map((item, index) => {
+      if (item.type == 'duration') {
+        time += item.value;
+      } else {
+        time += item.value * 5;
+      }
+      time += item.rest;
+    });
+
+    obj.time = Math.ceil(time / 60);
+    obj.burn = time * 0.2;
+    obj.intensity = time > 600 ? 'high' : time < 300 ? 'low' : 'medium';
+
+    setCircuitStats(obj);
+  };
+
+  useEffect(() => {
+    handleCircuitStats();
+  }, [exercisesList]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -156,18 +198,50 @@ const CreateCircuits = () => {
           <AppTitle text1='Exer' text2='cises' fontSize={height * 0.025} />
           <FlatList
             style={{ height: height * 0.6, overflow: 'hidden' }}
-            data={dummyCircuit}
+            data={exercisesList}
             keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    width: '100%',
+                    height: height * 0.4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '10%',
+                  }}
+                >
+                  <MaterialIcons
+                    name='fitness-center'
+                    size={height * 0.05}
+                    color={colors.primary + 'aa'}
+                  />
+                  <Text
+                    style={{
+                      color: colors.primary + 'aa',
+                      fontSize: 14,
+                      textAlign: 'center',
+                      marginTop: '5%',
+                    }}
+                  >
+                    No exercises added , please use the add sets button above
+                  </Text>
+                </View>
+              );
+            }}
             renderItem={({ item, index }) => {
               return (
                 <ExerciseCard
-                  type={getType(index, dummyCircuit.length)}
+                  type={getType(index, exercisesList.length)}
                   onEdit={() => {}}
                   onDelete={() => {}}
                   title={item.title}
                   exerciseType={item.type}
                   value={item.value + ''}
                   rest={item.rest + ''}
+                  backgroundColor={item.backgroundColor}
                 />
               );
             }}
@@ -201,7 +275,7 @@ const CreateCircuits = () => {
             <Text
               style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
             >
-              {dummyCircuit.length}
+              {exercisesList.length}
             </Text>
             {/* <Text style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold' }}></Text> */}
           </View>
@@ -211,12 +285,12 @@ const CreateCircuits = () => {
             <Text
               style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
             >
-              {dummyCircuit.length}
+              {circuitStats.time}
             </Text>
             <Text
               style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
             >
-              secs
+              mins
             </Text>
           </View>
 
@@ -225,7 +299,7 @@ const CreateCircuits = () => {
             <Text
               style={{ fontSize: 40, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
             >
-              {347}
+              {circuitStats.burn}
             </Text>
             <Text
               style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
@@ -237,16 +311,42 @@ const CreateCircuits = () => {
             <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>
               Intesity
             </Text>
-            <Text
-              style={{ fontSize: 36, color: colors.primary, fontWeight: 'bold', marginTop: -8 }}
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '70%',
+              }}
             >
-              {'High'}
-            </Text>
-            {/* <Text
-              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -8 }}
-            >
-              cal
-            </Text> */}
+              <FontAwesome
+                name='signal'
+                size={44}
+                color={
+                  circuitStats.intensity == 'high'
+                    ? '#c95362'
+                    : circuitStats.intensity == 'medium'
+                      ? '#c98253'
+                      : '#f5da42'
+                }
+                style={{ marginLeft: 8, marginTop: 4 }}
+              />
+              <Text
+                style={{
+                  fontSize: 13,
+                  color:
+                    circuitStats.intensity == 'high'
+                      ? '#c95362'
+                      : circuitStats.intensity == 'medium'
+                        ? '#c98253'
+                        : '#f5da42',
+                  fontWeight: 'bold',
+                }}
+              >
+                {circuitStats.intensity}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -269,7 +369,17 @@ const CreateCircuits = () => {
         <ContainedButton title={'Submit'} onClick={() => {}} />
       </View>
 
-      <AddSetsModal modalVisible={showAddSets} handleModalClose={() => setShowAddSet(false)} />
+      <AddSetsModal
+        modalVisible={showAddSets}
+        handleModalClose={() => setShowAddSet(false)}
+        handleSubmit={(obj) => {
+          let setsArray = [...exercisesList];
+          let setObj = { ...obj, backgroundColor: getRandomColor() };
+          setsArray.push(setObj);
+          setExercisesList(setsArray);
+          setShowAddSet(false);
+        }}
+      />
     </SafeAreaView>
   );
 };

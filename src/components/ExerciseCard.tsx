@@ -33,6 +33,7 @@ interface ExerciseCardInterface {
   exerciseType: string;
   value: string;
   rest: string;
+  backgroundColor: string;
 }
 
 const ExerciseCard = ({
@@ -43,11 +44,8 @@ const ExerciseCard = ({
   exerciseType,
   value,
   rest,
+  backgroundColor,
 }: ExerciseCardInterface) => {
-  function getRandomColor() {
-    // Generate a random hex color code
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
-  }
   return (
     <View
       style={{
@@ -73,7 +71,7 @@ const ExerciseCard = ({
         style={{
           width: '85%',
           height: height * 0.08,
-          backgroundColor: getRandomColor() + '66',
+          backgroundColor: backgroundColor + '66',
           paddingHorizontal: '5%',
           paddingVertical: '2.5%',
           borderRadius: 4,
