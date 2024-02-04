@@ -17,6 +17,9 @@ import { title } from '../utils/types';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import AddSetsModal from '../components/AddSetModal';
+import OutlinedButton from '../components/OutlinedButton';
+import ContainedButton from '../components/ContainedButton';
+import { Ionicons } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get('window');
 
@@ -36,7 +39,23 @@ const CreateCircuits = () => {
         showHideTransition={'slide'}
         hidden={false}
       />
-      <View style={styles.basic}>
+      <View
+        style={[
+          styles.basic,
+          {
+            marginTop: Platform.OS == 'android' ? '5%' : 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginHorizontal: 0,
+          },
+        ]}
+      >
+        <Ionicons
+          name='chevron-back'
+          size={height * 0.04}
+          color='white'
+          style={{ marginRight: 4 }}
+        />
         <AppTitle text1='Create ' text2='Circuits' fontSize={height * 0.035} />
       </View>
 
@@ -97,6 +116,43 @@ const CreateCircuits = () => {
         >
           <Text style={{ color: colors.primary }}>Add Set</Text>
         </TouchableOpacity>
+      </View>
+
+      <View
+        style={[
+          styles.basic,
+          { height: height * 0.25, marginTop: '7.5%', flexDirection: 'column' },
+        ]}
+      >
+        <AppTitle text1='Exer' text2='cises' fontSize={height * 0.025} />
+      </View>
+
+      <View
+        style={[
+          styles.basic,
+          {
+            height: height * 0.25,
+            marginTop: '7.5%',
+            flexDirection: 'column',
+          },
+        ]}
+      >
+        <AppTitle text1='Stat' text2='istics' fontSize={height * 0.025} />
+      </View>
+
+      <View
+        style={[
+          styles.basic,
+          {
+            marginTop: '10%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          },
+        ]}
+      >
+        <OutlinedButton title={'Clear'} onClick={() => {}} />
+        <ContainedButton title={'Submit'} onClick={() => {}} />
       </View>
 
       <AddSetsModal modalVisible={showAddSets} handleModalClose={() => setShowAddSet(false)} />
