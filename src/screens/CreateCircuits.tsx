@@ -9,6 +9,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { colors } from '../utils/colors';
@@ -20,8 +21,13 @@ import AddSetsModal from '../components/AddSetModal';
 import OutlinedButton from '../components/OutlinedButton';
 import ContainedButton from '../components/ContainedButton';
 import { Ionicons } from '@expo/vector-icons';
+import { BlurMask, Canvas, Circle, RoundedRect } from '@shopify/react-native-skia';
+import ExerciseCard from '../components/ExerciseCard';
+import { dummyCircuit } from '../utils/consts';
 
 const { height, width } = Dimensions.get('window');
+
+const r = 128;
 
 const CreateCircuits = () => {
   const [circuitTitle, setCircuitTitle] = React.useState<title>({
@@ -29,6 +35,16 @@ const CreateCircuits = () => {
     focus: false,
   });
   const [showAddSets, setShowAddSet] = React.useState<boolean>(false);
+
+  const getType = (index: number, length: number) => {
+    if (length == 1) {
+      return 'single';
+    } else {
+      if (index == 0) return 'start';
+      else if (index > 0 && index < length - 1) return 'mid';
+      else return 'end';
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -121,33 +137,131 @@ const CreateCircuits = () => {
       <View
         style={[
           styles.basic,
-          { height: height * 0.25, marginTop: '7.5%', flexDirection: 'column' },
-        ]}
-      >
-        <AppTitle text1='Exer' text2='cises' fontSize={height * 0.025} />
-      </View>
-
-      <View
-        style={[
-          styles.basic,
           {
-            height: height * 0.25,
+            flexDirection: 'row',
+            height: height * 0.6,
             marginTop: '7.5%',
-            flexDirection: 'column',
           },
         ]}
       >
-        <AppTitle text1='Stat' text2='istics' fontSize={height * 0.025} />
+        {/* Exercises */}
+        <View
+          style={[
+            {
+              flexDirection: 'column',
+              width: width * 0.65,
+            },
+          ]}
+        >
+          <AppTitle text1='Exer' text2='cises' fontSize={height * 0.025} />
+          <FlatList
+            style={{ height: height * 0.6, overflow: 'hidden' }}
+            data={dummyCircuit}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item, index }) => {
+              return (
+                <ExerciseCard
+                  type={getType(index, dummyCircuit.length)}
+                  onEdit={() => {}}
+                  onDelete={() => {}}
+                  title={item.title}
+                  exerciseType={item.type}
+                  value={item.value + ''}
+                  rest={item.rest + ''}
+                />
+              );
+            }}
+          />
+        </View>
+        <View
+          style={{
+            width: 1,
+            borderLeftColor: '#c7c7c777',
+            borderLeftWidth: 1,
+            marginHorizontal: width * 0.05,
+            marginTop: '10%',
+          }}
+        />
+
+        {/* Stats */}
+        <View
+          style={[
+            {
+              flexDirection: 'column',
+              width: width * 0.2,
+              marginTop: '10%',
+              justifyContent: 'space-around',
+            },
+          ]}
+        >
+          <View style={{ display: 'flex', flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>
+              Exercises
+            </Text>
+            <Text
+              style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+            >
+              {dummyCircuit.length}
+            </Text>
+            {/* <Text style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold' }}></Text> */}
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>Time</Text>
+            <Text
+              style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+            >
+              {dummyCircuit.length}
+            </Text>
+            <Text
+              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+            >
+              secs
+            </Text>
+          </View>
+
+          <View style={{ display: 'flex', flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>Burn</Text>
+            <Text
+              style={{ fontSize: 40, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+            >
+              {347}
+            </Text>
+            <Text
+              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+            >
+              cal
+            </Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'column' }}>
+            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>
+              Intesity
+            </Text>
+            <Text
+              style={{ fontSize: 36, color: colors.primary, fontWeight: 'bold', marginTop: -8 }}
+            >
+              {'High'}
+            </Text>
+            {/* <Text
+              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -8 }}
+            >
+              cal
+            </Text> */}
+          </View>
+        </View>
       </View>
 
       <View
         style={[
           styles.basic,
           {
+            width: width * 0.95,
             marginTop: '10%',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-end',
+            position: 'absolute',
+            bottom: height * 0.025,
           },
         ]}
       >
