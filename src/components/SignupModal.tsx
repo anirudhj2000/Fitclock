@@ -169,7 +169,6 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
     })
     .onChange((event) => {
       offset.value = event.translationY;
-      console.log('event values ma shit', event.translationY, Math.max(0, event.translationY));
     })
     .onFinalize((event) => {
       pressed.value = false;
