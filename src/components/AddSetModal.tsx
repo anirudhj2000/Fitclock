@@ -20,7 +20,8 @@ import Animated, {
 import { colors } from '../utils/colors';
 import AppTitle from './AppTitle';
 import { Dropdown } from 'react-native-element-dropdown';
-import { AntDesign } from '@expo/vector-icons';
+import OutlinedButton from './OutlinedButton';
+import ContainedButton from './ContainedButton';
 
 const { height, width } = Dimensions.get('window');
 
@@ -87,14 +88,26 @@ const REST = [
 ];
 
 const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  { label: 'Jumping Jacks', value: 'JJ' },
+  { label: 'Burpees', value: 'B' },
+  { label: 'Mountain Climbers', value: 'MC' },
+  { label: 'High Knees', value: 'HK' },
+  { label: 'Plank', value: 'P' },
+  { label: 'Sprint in Place', value: 'SP' },
+  { label: 'Lunges', value: 'L' },
+  { label: 'Box Jumps', value: 'BJ' },
+  { label: 'Push-ups', value: 'PU' },
+  { label: 'Squat Jumps', value: 'SJ' },
+  { label: 'Russian Twists', value: 'RT' },
+  { label: 'Jump Rope', value: 'JR' },
+  { label: 'Bicycle Crunches', value: 'BC' },
+  { label: 'Plank Jacks', value: 'PJ' },
+  { label: 'High Plank with Shoulder Taps', value: 'HPST' },
+  { label: 'Mountain Climber Twists', value: 'MCT' },
+  { label: 'Side Plank', value: 'SPK' },
+  { label: 'Power Squats', value: 'PS' },
+  { label: 'Bench Dips', value: 'BD' },
+  { label: 'Side Lunges', value: 'SL' },
 ];
 
 const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
@@ -103,6 +116,8 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
   const [restValue, setRestValue] = React.useState<string>('15 secs');
   const [value, setValue] = useState<any>(null);
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [repValue, setRepValue] = useState<string>('');
+  const [customRest, setCustomRest] = useState<string>('');
 
   useEffect(() => {
     if (selectedType == 0) {
@@ -133,6 +148,17 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [{ translateY: Math.max(0, offset.value) }],
   }));
+
+  const handleClear = () => {
+    setSelectedType(0);
+    setSelectedValue('');
+    setRestValue('15 secs');
+    setRepValue('');
+    setRestValue('');
+    setValue('');
+  };
+
+  const handleSubmit = () => {};
 
   return (
     <View style={{ display: 'flex' }}>
@@ -267,6 +293,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                       ? TIME.map((item, index) => {
                           return (
                             <TouchableOpacity
+                              key={index}
                               onPress={() => {
                                 setSelectedValue(item.title);
                               }}
@@ -287,6 +314,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                       : REPS.map((item, index) => {
                           return (
                             <TouchableOpacity
+                              key={index}
                               onPress={() => {
                                 setSelectedValue(item.title);
                               }}
@@ -305,6 +333,27 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                           );
                         })}
                   </View>
+                  {selectedValue == 'Custom' ? (
+                    <View
+                      style={{
+                        display: 'flex',
+                        marginTop: '5%',
+                        borderBottomColor: colors.secondary,
+                        width: '60%',
+                        borderBottomWidth: 1,
+                        padding: '3%',
+                      }}
+                    >
+                      <TextInput
+                        value={repValue.toString()}
+                        onChangeText={(text) => setRepValue(text)}
+                        keyboardType={'decimal-pad'}
+                        style={{ color: colors.primary }}
+                        placeholder={selectedType == 0 ? 'Duration' : 'Reps'}
+                        placeholderTextColor={'#c7c7c7'}
+                      />
+                    </View>
+                  ) : null}
                   <View style={{ display: 'flex', marginTop: '7.5%' }}>
                     <Text style={{ color: colors.primary, fontSize: 16 }}>{'Rest'}</Text>
                   </View>
@@ -319,6 +368,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                     {REST.map((item, index) => {
                       return (
                         <TouchableOpacity
+                          key={index}
                           onPress={() => {
                             setRestValue(item.title);
                           }}
@@ -336,6 +386,27 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                     })}
                   </View>
                 </View>
+                {restValue == 'Custom' ? (
+                  <View
+                    style={{
+                      display: 'flex',
+                      marginTop: '5%',
+                      borderBottomColor: colors.secondary,
+                      width: '60%',
+                      borderBottomWidth: 1,
+                      padding: '3%',
+                    }}
+                  >
+                    <TextInput
+                      value={customRest.toString()}
+                      onChangeText={(text) => setCustomRest(text)}
+                      keyboardType={'decimal-pad'}
+                      style={{ color: colors.primary }}
+                      placeholder={'Rest'}
+                      placeholderTextColor={'#c7c7c7'}
+                    />
+                  </View>
+                ) : null}
                 <View
                   style={{
                     display: 'flex',
@@ -344,26 +415,18 @@ const AddSetsModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                     marginTop: '15%',
                   }}
                 >
-                  <TouchableOpacity
-                    style={{
-                      borderWidth: 1,
-                      borderColor: colors.secondary,
-                      paddingVertical: '2.5%',
-                      paddingHorizontal: '7.5%',
-                      marginHorizontal: '2.5%',
+                  <OutlinedButton
+                    title={'Clear'}
+                    onClick={() => {
+                      handleClear();
                     }}
-                  >
-                    <Text style={{ color: colors.secondary }}>Reset</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: colors.secondary,
-                      paddingVertical: '2.5%',
-                      paddingHorizontal: '7.5%',
+                  />
+                  <ContainedButton
+                    title={'Submit'}
+                    onClick={() => {
+                      handleSubmit();
                     }}
-                  >
-                    <Text style={{ color: colors.primary }}>Submit</Text>
-                  </TouchableOpacity>
+                  />
                 </View>
               </View>
             </Animated.View>
