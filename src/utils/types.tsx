@@ -15,3 +15,11 @@ export type title = {
   title: string;
   focus: boolean;
 };
+
+export interface setObjectInterface {
+  exercise: string;
+  title: string;
+  value: number;
+  rest: number;
+  type: string;
+}
