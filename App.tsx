@@ -8,7 +8,7 @@ import LoginStackNavigator from './src/navigation/AuthNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <NavigationContainer>
       {isLoggedIn ? <AppStackNavigator /> : <LoginStackNavigator />}
