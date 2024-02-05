@@ -10,6 +10,11 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { colors } from '../utils/colors';
+import auth from '@react-native-firebase/auth';
+import { checkIfUserExists } from './SignupModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+import useUserStore from '../utils/store';
 
 const { height, width } = Dimensions.get('window');
 
@@ -22,6 +27,7 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
   const [password, setPassword] = useState<string>('');
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const updateUser = useUserStore((state) => state.updateUser);
 
   const onSubmit = () => {
     let isValid = true;
@@ -40,31 +46,31 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
       setPasswordError(null);
     }
 
-    //   if (isValid) {
-    //     auth()
-    //       .signInWithEmailAndPassword(username, password)
-    //       .then(res => {
-    //         checkIfUserExists(username).then(exists => {
-    //           if (exists) {
-    //             AsyncStorage.setItem('user', JSON.stringify(exists.data()));
-    //             updateUser(exists.data());
-    //             Toast.show({
-    //               position: 'top',
-    //               type: 'success',
-    //               text1: 'Logged in Successfully!',
-    //             });
-    //           }
-    //         });
-    //       })
-    //       .catch(err => {
-    //         console.log(':err', err);
-    //         Toast.show({
-    //           position: 'top',
-    //           type: 'error',
-    //           text1: 'Some error has occurred!',
-    //         });
-    //       });
-    //   }
+    if (isValid) {
+      auth()
+        .signInWithEmailAndPassword(username, password)
+        .then((res) => {
+          checkIfUserExists(username).then((exists) => {
+            if (exists) {
+              AsyncStorage.setItem('user', JSON.stringify(exists.data()));
+              updateUser(exists.data());
+              Toast.show({
+                position: 'top',
+                type: 'success',
+                text1: 'Logged in Successfully!',
+              });
+            }
+          });
+        })
+        .catch((err) => {
+          console.log('err', err);
+          Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: 'Some error has occurred!',
+          });
+        });
+    }
   };
 
   return (
@@ -138,6 +144,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#c7c7c7',
     paddingHorizontal: 8,
-    color: '#000',
+    color: '#fff',
   },
 });
