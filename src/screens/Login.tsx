@@ -14,11 +14,141 @@ import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
 import LoginForm from '../components/loginForm';
 import SignupModal from '../components/SignupModal';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
+import useUserStore from '../utils/store';
+import { checkIfUserExists } from '../components/SignupModal';
 
 const { height, width } = Dimensions.get('window');
 
+GoogleSignin.configure({
+  webClientId: '318235095807-554pip4odrbv9cqqfn0fqq996h34b99k.apps.googleusercontent.com',
+});
+
 const Login = () => {
   const [showSignUp, setShowSignUp] = React.useState<boolean>(false);
+  const updateUser = useUserStore((state) => state.updateUser);
+
+  const AddUserData = (data: any) => {
+    firestore()
+      .collection('User')
+      .doc(data.user.email)
+      .set({
+        email: data.user.email,
+        image: data.user.photoURL,
+        name: data.user.displayName,
+        joinedOn: new Date(),
+      })
+      .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successfull!',
+          position: 'top',
+        });
+        console.log('user l;ogin called');
+        AsyncStorage.setItem(
+          'user',
+          JSON.stringify({
+            email: data.user.email,
+            image: data.user.photoURL,
+            name: data.user.displayName,
+          }),
+        );
+        updateUser({
+          email: data.user.email,
+          image: data.user.photoURL,
+          name: data.user.displayName,
+        });
+      });
+  };
+
+  const HandleSignIn = () => {
+    onGoogleButtonPress()
+      .then((res) => {
+        if (res?.user?.email) {
+          checkIfUserExists(res?.user?.email)
+            .then((exists) => {
+              if (!exists) {
+                AddUserData(res);
+              } else {
+                Toast.show({
+                  type: 'success',
+                  text1: 'Login Successfull!',
+                  position: 'top',
+                });
+                console.log(
+                  'user l;ogin 1',
+                  JSON.stringify({
+                    email: res.user.email,
+                    image: res.user.photoURL,
+                    name: res.user.displayName,
+                  }),
+                );
+                AsyncStorage.setItem(
+                  'user',
+                  JSON.stringify({
+                    email: res.user.email,
+                    image: res.user.photoURL,
+                    name: res.user.displayName,
+                  }),
+                );
+                // updateUser({
+                //   email: res.user.email,
+                //   image: res.user.photoURL,
+                //   name: res.user.displayName,
+                // });
+              }
+            })
+            .catch((err) => {
+              auth().signOut();
+              //   updateUser(null);
+              AsyncStorage.clear();
+              //   Toast.show({
+              //     type: 'error',
+              //     text1: 'Some error has occurred!',
+              //     position: 'top',
+              //   });
+            });
+        }
+
+        // Toast.show({
+        //   type: 'success',
+        //   text1: 'Login Successfull!',
+        //   position: 'top',
+        // });
+        // console.log('user l;ogin 2', res);
+        // AsyncStorage.setItem('user', JSON.stringify(res));
+        // updateUser(res);
+      })
+      .catch((err) => {
+        console.log('login err', err);
+        auth().signOut();
+        Toast.show({
+          type: 'error',
+          text1: 'Some error has occurred!',
+          position: 'top',
+        });
+        updateUser(null);
+        AsyncStorage.clear();
+      });
+  };
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -51,7 +181,8 @@ const Login = () => {
               backgroundColor: '#000000',
               borderWidth: 0.3,
               borderColor: colors.secondary,
-              padding: '2.5%',
+              paddingHorizontal: '2.5%',
+              paddingVertical: '2.5%',
               marginBottom: '5%',
             },
           ]}
@@ -59,6 +190,7 @@ const Login = () => {
           <TouchableOpacity
             onPress={() => {
               console.log('clicked');
+              onGoogleButtonPress();
             }}
             style={{
               backgroundColor: '#fff',
@@ -67,7 +199,7 @@ const Login = () => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: '5%',
+              marginTop: '2.5%',
               marginBottom: '2.5%',
             }}
           >
@@ -129,7 +261,7 @@ const Login = () => {
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '2.5%',
+            marginVertical: '2.5%',
           }}
         >
           <TouchableOpacity

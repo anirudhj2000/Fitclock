@@ -19,6 +19,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { colors } from '../utils/colors';
 import AppTitle from './AppTitle';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
+
 const { height, width } = Dimensions.get('window');
 
 interface ModalInterface {
@@ -47,17 +51,17 @@ export const validatePassword = (password: string): boolean => {
 
 export const checkIfUserExists = (email: string) => {
   return new Promise<any>((resolve, reject) => {
-    //   firestore()
-    //     .collection('User')
-    //     .doc(email)
-    //     .get()
-    //     .then(documentSnapshot => {
-    //       if (documentSnapshot.exists) {
-    //         console.log('user exists');
-    //         resolve(documentSnapshot);
-    //       } else resolve(false);
-    //     })
-    //     .catch(err => reject());
+    firestore()
+      .collection('User')
+      .doc(email)
+      .get()
+      .then((documentSnapshot) => {
+        if (documentSnapshot.exists) {
+          console.log('user exists');
+          resolve(documentSnapshot);
+        } else resolve(false);
+      })
+      .catch((err) => reject());
   });
 };
 
@@ -71,25 +75,26 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
 
   const addUserData = () => {
     checkIfUserExists(email).then((res) => {
+      console.log('ithe aalo');
       if (!res) {
-        //   firestore()
-        //     .collection('User')
-        //     .doc(email)
-        //     .set({
-        //       email: email,
-        //       name: name,
-        //       joinedOn: new Date(),
-        //     })
-        //     .then(() => {
-        //       console.log('user data added');
-        //       clearData();
-        //       handleModalClose();
-        //       Toast.show({
-        //         position: 'top',
-        //         type: 'success',
-        //         text1: 'Signup successfull',
-        //       });
-        //     });
+        firestore()
+          .collection('User')
+          .doc(email)
+          .set({
+            email: email,
+            name: name,
+            joinedOn: new Date(),
+          })
+          .then(() => {
+            console.log('user data added');
+            clearData();
+            handleModalClose();
+            Toast.show({
+              position: 'top',
+              type: 'success',
+              text1: 'Signup successfull',
+            });
+          });
       }
     });
   };
@@ -130,34 +135,34 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
 
     setUsernameError(null);
 
-    //   auth()
-    //     .createUserWithEmailAndPassword(email, password)
-    //     .then(() => {
-    //       console.log('User account created & signed in!');
-    //       auth().signOut();
-    //       addUserData();
-    //     })
-    //     .catch(error => {
-    //       if (error.code === 'auth/email-already-in-use') {
-    //         Toast.show({
-    //           position: 'top',
-    //           type: 'info',
-    //           text1: 'That email address is already in use!',
-    //         });
-    //         console.log('That email address is already in use!');
-    //       }
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log('User account created & signed in!');
+        auth().signOut();
+        addUserData();
+      })
+      .catch((error) => {
+        if (error.code === 'auth/email-already-in-use') {
+          Toast.show({
+            position: 'top',
+            type: 'info',
+            text1: 'That email address is already in use!',
+          });
+          console.log('That email address is already in use!');
+        }
 
-    //       if (error.code === 'auth/invalid-email') {
-    //         Toast.show({
-    //           position: 'top',
-    //           type: 'error',
-    //           text1: 'That email address is invalid!',
-    //         });
-    //         console.log('That email address is invalid!');
-    //       }
+        if (error.code === 'auth/invalid-email') {
+          Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: 'That email address is invalid!',
+          });
+          console.log('That email address is invalid!');
+        }
 
-    //       console.error(error);
-    //     });
+        console.error(error);
+      });
   };
 
   const pressed = useSharedValue(false);
@@ -412,5 +417,6 @@ const styles = StyleSheet.create({
     borderColor: '#c7c7c7',
     paddingHorizontal: 8,
     height: height * 0.05,
+    color: '#fff',
   },
 });
