@@ -14,11 +14,31 @@ import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
 import LoginForm from '../components/loginForm';
 import SignupModal from '../components/SignupModal';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const { height, width } = Dimensions.get('window');
 
+GoogleSignin.configure({
+  webClientId: '318235095807-554pip4odrbv9cqqfn0fqq996h34b99k.apps.googleusercontent.com',
+});
+
 const Login = () => {
   const [showSignUp, setShowSignUp] = React.useState<boolean>(false);
+
+  async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const { idToken } = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -51,7 +71,8 @@ const Login = () => {
               backgroundColor: '#000000',
               borderWidth: 0.3,
               borderColor: colors.secondary,
-              padding: '2.5%',
+              paddingHorizontal: '2.5%',
+              paddingVertical: '2.5%',
               marginBottom: '5%',
             },
           ]}
@@ -59,6 +80,7 @@ const Login = () => {
           <TouchableOpacity
             onPress={() => {
               console.log('clicked');
+              onGoogleButtonPress();
             }}
             style={{
               backgroundColor: '#fff',
@@ -67,7 +89,7 @@ const Login = () => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: '5%',
+              marginTop: '2.5%',
               marginBottom: '2.5%',
             }}
           >
@@ -129,7 +151,7 @@ const Login = () => {
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '2.5%',
+            marginVertical: '2.5%',
           }}
         >
           <TouchableOpacity
