@@ -239,6 +239,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                 <View style={{ display: 'flex', flexDirection: 'column' }}>
                   <Text
                     style={{
+                      fontFamily: 'Inter_400Regular',
                       marginHorizontal: 4,
                       marginBottom: '1%',
                       fontSize: 14,
@@ -270,6 +271,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                 <View style={{ display: 'flex', flexDirection: 'column' }}>
                   <Text
                     style={{
+                      fontFamily: 'Inter_400Regular',
                       marginHorizontal: 4,
                       marginBottom: '1%',
                       fontSize: 14,
@@ -292,6 +294,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                 <View style={{ display: 'flex', flexDirection: 'column' }}>
                   <Text
                     style={{
+                      fontFamily: 'Inter_400Regular',
                       marginHorizontal: 4,
                       marginBottom: '1%',
                       fontSize: 14,
@@ -316,6 +319,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                   <View style={{ display: 'flex', flexDirection: 'column' }}>
                     <Text
                       style={{
+                        fontFamily: 'Inter_400Regular',
                         marginHorizontal: 4,
                         fontSize: 14,
                         color: '#000',
@@ -334,6 +338,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                     {usernameError && (
                       <Text
                         style={{
+                          fontFamily: 'Inter_400Regular',
                           color: '#E50000',
                           fontSize: 12,
                           marginTop: 8,
@@ -357,7 +362,16 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
                   backgroundColor: colors.secondary,
                 }}
               >
-                <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Signup</Text>
+                <Text
+                  style={{
+                    fontFamily: 'Inter_400Regular',
+                    fontSize: 16,
+                    color: '#fff',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Signup
+                </Text>
               </TouchableOpacity>
             </Animated.View>
           </View>
@@ -412,6 +426,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textContainer: {
+    fontFamily: 'Inter_400Regular',
     marginBottom: '5%',
     borderWidth: 1,
     borderColor: '#c7c7c7',

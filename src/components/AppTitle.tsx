@@ -10,8 +10,10 @@ interface AppTitleInterface {
 
 const AppTitle = ({ fontSize, text1, text2 }: AppTitleInterface) => {
   return (
-    <Text style={{ color: colors.primary, fontSize: fontSize }}>
-      <Text style={{ color: colors.secondary, fontWeight: 'bold' }}>{text1}</Text>
+    <Text style={{ color: colors.primary, fontSize: fontSize, fontFamily: 'Inter_400Regular' }}>
+      <Text style={{ color: colors.secondary, fontWeight: 'bold', fontFamily: 'Inter_700Bold' }}>
+        {text1}
+      </Text>
       {text2}
     </Text>
   );

@@ -81,11 +81,24 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
         placeholderTextColor={'#c7c7c7'}
         style={[
           styles.textContainer,
-          { marginBottom: passwordError ? 0 : '5%', height: height * 0.05 },
+          {
+            fontFamily: 'Inter_400Regular',
+            marginBottom: passwordError ? 0 : '5%',
+            height: height * 0.05,
+          },
         ]}
       />
       {usernameError && (
-        <Text style={{ color: '#E50000', fontSize: 12, marginVertical: 4 }}>{usernameError}</Text>
+        <Text
+          style={{
+            fontFamily: 'Inter_400Regular',
+            color: '#E50000',
+            fontSize: 12,
+            marginVertical: 4,
+          }}
+        >
+          {usernameError}
+        </Text>
       )}
       <TextInput
         placeholder='Password'
@@ -94,11 +107,24 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
         onChangeText={(text) => setPassword(text)}
         style={[
           styles.textContainer,
-          { marginBottom: passwordError ? 0 : '5%', height: height * 0.05 },
+          {
+            fontFamily: 'Inter_400Regular',
+            marginBottom: passwordError ? 0 : '5%',
+            height: height * 0.05,
+          },
         ]}
       />
       {passwordError && (
-        <Text style={{ color: '#E50000', fontSize: 12, marginVertical: 4 }}>{passwordError}</Text>
+        <Text
+          style={{
+            fontFamily: 'Inter_400Regular',
+            color: '#E50000',
+            fontSize: 12,
+            marginVertical: 4,
+          }}
+        >
+          {passwordError}
+        </Text>
       )}
       <TouchableOpacity
         onPress={() => {
@@ -115,7 +141,16 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
           borderWidth: 1,
         }}
       >
-        <Text style={{ fontSize: 16, color: '#fff', fontWeight: 'bold' }}>Login</Text>
+        <Text
+          style={{
+            fontFamily: 'Inter_400Regular',
+            fontSize: 16,
+            color: '#fff',
+            fontWeight: 'bold',
+          }}
+        >
+          Login
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={onPressSignup}
@@ -130,7 +165,16 @@ const LoginForm = ({ onPressSignup }: LoginFormInterface) => {
           borderColor: '#000',
         }}
       >
-        <Text style={{ fontSize: 16, color: '#000', fontWeight: 'bold' }}>Signup</Text>
+        <Text
+          style={{
+            fontFamily: 'Inter_400Regular',
+            fontSize: 16,
+            color: '#000',
+            fontWeight: 'bold',
+          }}
+        >
+          Signup
+        </Text>
       </TouchableOpacity>
     </View>
   );

@@ -269,7 +269,13 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                       alignItems: 'center',
                     }}
                   >
-                    <Text style={{ color: colors.primary, fontSize: 16 }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Inter_400Regular',
+                        color: colors.primary,
+                        fontSize: 16,
+                      }}
+                    >
                       {selectedType == 0 ? 'Duration' : 'Reps'}
                     </Text>
                     <View
@@ -295,7 +301,9 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                           borderRadius: 16,
                         }}
                       >
-                        <Text style={{ color: '#fff' }}>Duration</Text>
+                        <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff' }}>
+                          Duration
+                        </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => {
@@ -308,7 +316,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                           borderRadius: 16,
                         }}
                       >
-                        <Text style={{ color: '#fff' }}>Reps</Text>
+                        <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff' }}>Reps</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -340,7 +348,9 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                                   selectedValue == item.title ? '#000' : colors.secondary,
                               }}
                             >
-                              <Text style={{ color: '#fff' }}>{item.title}</Text>
+                              <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff' }}>
+                                {item.title}
+                              </Text>
                             </TouchableOpacity>
                           );
                         })
@@ -362,7 +372,9 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                                   selectedValue == item.title ? '#000' : colors.secondary,
                               }}
                             >
-                              <Text style={{ color: '#fff' }}>{item.title}</Text>
+                              <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff' }}>
+                                {item.title}
+                              </Text>
                             </TouchableOpacity>
                           );
                         })}
@@ -382,14 +394,22 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                         value={repValue.toString()}
                         onChangeText={(text) => setRepValue(text)}
                         keyboardType={'decimal-pad'}
-                        style={{ color: colors.primary }}
+                        style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}
                         placeholder={selectedType == 0 ? 'Duration' : 'Reps'}
                         placeholderTextColor={'#c7c7c7'}
                       />
                     </View>
                   ) : null}
                   <View style={{ display: 'flex', marginTop: '7.5%' }}>
-                    <Text style={{ color: colors.primary, fontSize: 16 }}>{'Rest'}</Text>
+                    <Text
+                      style={{
+                        fontFamily: 'Inter_400Regular',
+                        color: colors.primary,
+                        fontSize: 16,
+                      }}
+                    >
+                      {'Rest'}
+                    </Text>
                   </View>
                   <View
                     style={{
@@ -414,7 +434,9 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                             borderColor: restValue == item.title ? '#000' : colors.secondary,
                           }}
                         >
-                          <Text style={{ color: '#fff' }}>{item.title}</Text>
+                          <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff' }}>
+                            {item.title}
+                          </Text>
                         </TouchableOpacity>
                       );
                     })}
@@ -435,7 +457,7 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
                       value={customRest.toString()}
                       onChangeText={(text) => setCustomRest(text)}
                       keyboardType={'decimal-pad'}
-                      style={{ color: colors.primary }}
+                      style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}
                       placeholder={'Rest'}
                       placeholderTextColor={'#c7c7c7'}
                     />

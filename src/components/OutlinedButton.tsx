@@ -19,7 +19,7 @@ const OutlinedButton = ({ title, onClick }: OutlinedButtonInterface) => {
       }}
       onPress={onClick}
     >
-      <Text style={{ color: colors.secondary }}>{title}</Text>
+      <Text style={{ fontFamily: 'Inter_400Regular', color: colors.secondary }}>{title}</Text>
     </TouchableOpacity>
   );
 };
