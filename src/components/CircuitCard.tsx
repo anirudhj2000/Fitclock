@@ -26,7 +26,7 @@ const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
       }}
     >
       <Image
-        style={{ height: height * 0.08, width: width * 0.35 }}
+        style={{ height: height * 0.08, width: width * 0.3 }}
         source={{ uri: images[parseInt(Math.random() * 10 + '') % 5] }}
       />
       <View
@@ -44,13 +44,41 @@ const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
           {Math.floor(duration / 60) + ' mins'}
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          onClick();
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          width: width * 0.2,
+          justifyContent: 'space-between',
         }}
       >
-        <Feather name='edit-2' size={16} color={colors.secondary} />
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            onClick();
+          }}
+          style={{
+            borderWidth: 0.5,
+            borderColor: colors.secondary,
+            padding: '10%',
+            borderRadius: height * 0.1,
+          }}
+        >
+          <Feather name='play' size={16} color={colors.secondary} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            onClick();
+          }}
+          style={{
+            borderWidth: 0.5,
+            borderColor: colors.secondary,
+            padding: '10%',
+            borderRadius: height * 0.1,
+          }}
+        >
+          <Feather name='edit-2' size={16} color={colors.secondary} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
