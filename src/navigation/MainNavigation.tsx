@@ -10,8 +10,8 @@ const AppStack = createNativeStackNavigator<AppStackParamList>();
 function AppStackNavigator() {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <AppStack.Screen name='Home' component={Home} /> */}
-      <AppStack.Screen name='Circuits' component={CreateCircuits} />
+      <AppStack.Screen name='Home' component={Home} />
+      <AppStack.Screen name='CreateCircuits' component={CreateCircuits} />
     </AppStack.Navigator>
   );
 }

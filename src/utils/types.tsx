@@ -1,3 +1,5 @@
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 // Navigation Types
 
 export type AuthStackParamList = {
@@ -6,8 +8,10 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   Home: undefined;
-  Circuits: undefined;
+  CreateCircuits: undefined;
 };
+
+export type AppStackScreenProps = NativeStackScreenProps<AppStackParamList>;
 
 // Component Types
 
