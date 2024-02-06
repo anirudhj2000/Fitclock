@@ -73,7 +73,9 @@ const Home = ({ navigation }: AppStackScreenProps) => {
               justifyContent: 'space-between',
             }}
           >
-            <Text style={{ color: colors.primary, fontSize: 18 }}>Streak</Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary, fontSize: 18 }}>
+              Streak
+            </Text>
             <View style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
               {['S', 'M', 'T', 'W', 'Th'].map((item, index) => {
                 return (
@@ -90,15 +92,21 @@ const Home = ({ navigation }: AppStackScreenProps) => {
                       alignItems: 'center',
                     }}
                   >
-                    <Text style={{ color: colors.primary }}>{item}</Text>
+                    <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>
+                      {item}
+                    </Text>
                   </View>
                 );
               })}
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ color: colors.primary, fontSize: 18 }}>Sessions</Text>
-            <Text style={{ color: colors.secondary, fontSize: 28 }}>89</Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary, fontSize: 18 }}>
+              Sessions
+            </Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.secondary, fontSize: 28 }}>
+              89
+            </Text>
           </View>
         </View>
       </View>
@@ -110,10 +118,17 @@ const Home = ({ navigation }: AppStackScreenProps) => {
             width: width * 0.7,
           }}
         >
-          <Text style={{ fontSize: 18, color: colors.primary, marginBottom: '2.5%' }}>
+          <Text
+            style={{
+              fontFamily: 'Inter_400Regular',
+              fontSize: 18,
+              color: colors.primary,
+              marginBottom: '2.5%',
+            }}
+          >
             Create HIIT Circuits
           </Text>
-          <Text style={{ fontSize: 14, color: colors.primary }}>
+          <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: colors.primary }}>
             Craft, sweat, conquer with personalized HIIT circuits. Get fit now!
           </Text>
         </View>
@@ -130,7 +145,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           }}
         >
           <Ionicons name='flash-outline' size={height * 0.08} color={colors.primary} />
-          <Text style={{ color: colors.primary }}>Start!</Text>
+          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>Start!</Text>
         </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: '2.5%', marginTop: '2.5%' }}>

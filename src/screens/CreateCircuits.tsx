@@ -127,7 +127,11 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
 
       <View style={[styles.basic, { flexDirection: 'column', marginTop: '5%' }]}>
         <Text
-          style={{ color: circuitTitle.focus ? colors.secondary : colors.primary, fontSize: 16 }}
+          style={{
+            fontFamily: 'Inter_400Regular',
+            color: circuitTitle.focus ? colors.secondary : colors.primary,
+            fontSize: 16,
+          }}
         >
           {'Circuit Title*'}
         </Text>
@@ -141,7 +145,13 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
           }}
         >
           <TextInput
-            style={{ backgroundColor: '#000', fontSize: 20, padding: '2.5%', color: '#fff' }}
+            style={{
+              fontFamily: 'Inter_400Regular',
+              backgroundColor: '#000',
+              fontSize: 20,
+              padding: '2.5%',
+              color: '#fff',
+            }}
             value={circuitTitle.title}
             onChangeText={(val) => {
               let obj = { ...circuitTitle };
@@ -178,7 +188,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
             setShowAddSet(true);
           }}
         >
-          <Text style={{ color: colors.primary }}>Add Set</Text>
+          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>Add Set</Text>
         </TouchableOpacity>
       </View>
 
@@ -226,6 +236,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
                   />
                   <Text
                     style={{
+                      fontFamily: 'Inter_400Regular',
                       color: colors.primary + 'aa',
                       fontSize: 14,
                       textAlign: 'center',
@@ -275,11 +286,24 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
           ]}
         >
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>
+            <Text
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 16,
+                color: colors.secondary,
+                fontWeight: 'bold',
+              }}
+            >
               Exercises
             </Text>
             <Text
-              style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 48,
+                color: colors.primary,
+                fontWeight: 'bold',
+                marginTop: -6,
+              }}
             >
               {exercisesList.length}
             </Text>
@@ -287,34 +311,83 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
           </View>
 
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>Time</Text>
             <Text
-              style={{ fontSize: 48, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 16,
+                color: colors.secondary,
+                fontWeight: 'bold',
+              }}
+            >
+              Time
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 48,
+                color: colors.primary,
+                fontWeight: 'bold',
+                marginTop: -6,
+              }}
             >
               {circuitStats.time}
             </Text>
             <Text
-              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 14,
+                color: colors.primary,
+                fontWeight: 'bold',
+                marginTop: -6,
+              }}
             >
               mins
             </Text>
           </View>
 
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>Burn</Text>
             <Text
-              style={{ fontSize: 40, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 16,
+                color: colors.secondary,
+                fontWeight: 'bold',
+              }}
+            >
+              Burn
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 40,
+                color: colors.primary,
+                fontWeight: 'bold',
+                marginTop: -6,
+              }}
             >
               {circuitStats.burn}
             </Text>
             <Text
-              style={{ fontSize: 14, color: colors.primary, fontWeight: 'bold', marginTop: -6 }}
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 14,
+                color: colors.primary,
+                fontWeight: 'bold',
+                marginTop: -6,
+              }}
             >
               cal
             </Text>
           </View>
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ fontSize: 16, color: colors.secondary, fontWeight: 'bold' }}>
+            <Text
+              style={{
+                fontFamily: 'Inter_700Bold',
+                fontSize: 16,
+                color: colors.secondary,
+                fontWeight: 'bold',
+              }}
+            >
               Intesity
             </Text>
             <View
@@ -347,7 +420,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
                       : circuitStats.intensity == 'medium'
                         ? '#c98253'
                         : '#f5da42',
-                  fontWeight: 'bold',
+                  fontFamily: 'Inter_700Bold',
                 }}
               >
                 {circuitStats.intensity}

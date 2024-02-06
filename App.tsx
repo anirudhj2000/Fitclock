@@ -10,15 +10,15 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import useUserStore from './src/utils/store';
 import Toast from 'react-native-toast-message';
 import React from 'react';
+import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
 export default function App() {
   let userData = useUserStore((state) => state.user);
   let updateUser = useUserStore((state) => state.updateUser);
   const [user, setUser] = React.useState<string | null>(null);
-
-  // const [user, setUser] = React.useState<any>(
-  //   useUserStore(state => state.user),
-  // );
+  let [fontsLoaded, fontError] = useFonts({
+    Inter_400Regular,
+  });
 
   useEffect(() => {
     fetchInfo();
