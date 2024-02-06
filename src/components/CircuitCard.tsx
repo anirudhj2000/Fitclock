@@ -27,7 +27,7 @@ const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
     >
       <Image
         style={{ height: height * 0.08, width: width * 0.3 }}
-        source={{ uri: images[parseInt(Math.random() * 10 + '') % 5] }}
+        source={{ uri: images[parseInt(Math.random() * 10 + '') % 3] }}
       />
       <View
         style={{
