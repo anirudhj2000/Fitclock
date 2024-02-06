@@ -22,6 +22,8 @@ import useUserStore from '../utils/store';
 import firestore from '@react-native-firebase/firestore';
 import { setObjectInterface } from '../utils/types';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
 
 const { height, width } = Dimensions.get('window');
 
@@ -42,6 +44,7 @@ const chartConfig = {
 const Home = ({ navigation }: AppStackScreenProps) => {
   const focused = useIsFocused();
   const user = useUserStore((state) => state.user);
+  let updateUser = useUserStore((state) => state.updateUser);
   const [circuitsList, setCircuitsList] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -49,12 +52,11 @@ const Home = ({ navigation }: AppStackScreenProps) => {
   }, [focused]);
 
   const getCricuitList = () => {
-    console.log('user', user.email);
-    if (user.email)
+    if (user.email) {
+      console.log('user1', user.email);
       firestore()
         .collection('Circuits')
-        .where('user', '==', user?.email)
-        .orderBy('exercisesLength')
+        .where('user', '==', user.email)
         .limit(5)
         .get()
         .then((query) => {
@@ -66,19 +68,30 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           });
           console.log('arr', arr);
           setCircuitsList(arr);
+        })
+        .catch((err: any) => {
+          console.log('err', err);
         });
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <AppTitle fontSize={28} text1='FIT' text2='CLOCK' />
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <TouchableOpacity
+          onPress={() => {
+            AsyncStorage.clear();
+            auth().signOut();
+            updateUser(null);
+          }}
+          style={{ display: 'flex', flexDirection: 'row' }}
+        >
           <Image
             style={{ height: height * 0.035, width: height * 0.035 }}
             source={require('../../assets/guy.png')}
           />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={[styles.progressView, styles.shadowProp]}>
         <ProgressChart
@@ -191,7 +204,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
             alignItems: 'flex-end',
           }}
         >
-          <AppTitle fontSize={24} text1='CIRC' text2='UITS' />
+          <AppTitle fontSize={24} text1='Cir' text2='cuits' />
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
