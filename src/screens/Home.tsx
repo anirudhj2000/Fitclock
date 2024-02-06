@@ -10,13 +10,18 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
 import { ProgressChart } from 'react-native-chart-kit';
 import CircuitCard from '../components/CircuitCard';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { AppStackScreenProps } from '../utils/types';
+import { useIsFocused } from '@react-navigation/native';
+import useUserStore from '../utils/store';
+import firestore from '@react-native-firebase/firestore';
+import { setObjectInterface } from '../utils/types';
+import { Inter_400Regular } from '@expo-google-fonts/inter';
 
 const { height, width } = Dimensions.get('window');
 
@@ -35,6 +40,35 @@ const chartConfig = {
 };
 
 const Home = ({ navigation }: AppStackScreenProps) => {
+  const focused = useIsFocused();
+  const user = useUserStore((state) => state.user);
+  const [circuitsList, setCircuitsList] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    getCricuitList();
+  }, [focused]);
+
+  const getCricuitList = () => {
+    console.log('user', user.email);
+    if (user.email)
+      firestore()
+        .collection('Circuits')
+        .where('user', '==', user?.email)
+        .orderBy('exercisesLength')
+        .limit(5)
+        .get()
+        .then((query) => {
+          let arr: any = [];
+
+          console.log('result', query.docs);
+          query.docs.map((item) => {
+            arr.push(item.data());
+          });
+          console.log('arr', arr);
+          setCircuitsList(arr);
+        });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -149,7 +183,33 @@ const Home = ({ navigation }: AppStackScreenProps) => {
         </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: '2.5%', marginTop: '2.5%' }}>
-        <AppTitle fontSize={24} text1='CIRC' text2='UITS' />
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+          }}
+        >
+          <AppTitle fontSize={24} text1='CIRC' text2='UITS' />
+          <TouchableOpacity
+            style={{ marginRight: '2.5%' }}
+            onPress={() => {
+              navigation.navigate('Circuits');
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: 'Inter_400Regular',
+                color: colors.primary,
+                textDecorationLine: 'underline',
+              }}
+            >
+              View all..
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View
           style={{
             display: 'flex',
@@ -158,11 +218,50 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           }}
         >
           <FlatList
-            data={[1, 2, 3, 4]}
-            renderItem={({ item: any, index: number }) => {
-              return <CircuitCard />;
-            }}
+            style={{ height: height * 0.4, overflow: 'hidden' }}
+            data={circuitsList}
             keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    width: '100%',
+                    height: height * 0.2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: '10%',
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('CreateCircuits');
+                    }}
+                  >
+                    <MaterialIcons
+                      name='add-circle'
+                      size={height * 0.05}
+                      color={colors.primary + 'aa'}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontFamily: 'Inter_400Regular',
+                      color: colors.primary + 'aa',
+                      fontSize: 18,
+                      textAlign: 'center',
+                      marginTop: '1.5%',
+                    }}
+                  >
+                    Add new circuits!!
+                  </Text>
+                </View>
+              );
+            }}
+            renderItem={({ item, index }) => {
+              return <CircuitCard title={item.title} duration={item.duration} onClick={() => {}} />;
+            }}
           />
         </View>
       </View>
