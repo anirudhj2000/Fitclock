@@ -7,6 +7,8 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import { colors } from '../utils/colors';
@@ -14,6 +16,7 @@ import AppTitle from '../components/AppTitle';
 import { ProgressChart } from 'react-native-chart-kit';
 import CircuitCard from '../components/CircuitCard';
 import { Ionicons } from '@expo/vector-icons';
+import { AppStackScreenProps } from '../utils/types';
 
 const { height, width } = Dimensions.get('window');
 
@@ -31,7 +34,7 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-const Home = () => {
+const Home = ({ navigation }: AppStackScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -115,17 +118,20 @@ const Home = () => {
           </Text>
         </View>
 
-        <View
+        <TouchableOpacity
           style={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
           }}
+          onPress={() => {
+            navigation.navigate('CreateCircuits');
+          }}
         >
           <Ionicons name='flash-outline' size={height * 0.08} color={colors.primary} />
           <Text style={{ color: colors.primary }}>Start!</Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: '2.5%', marginTop: '2.5%' }}>
         <AppTitle fontSize={24} text1='CIRC' text2='UITS' />
@@ -154,7 +160,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight,
+    marginTop: Platform.OS == 'ios' ? StatusBar.currentHeight : 0,
     backgroundColor: colors.background,
     color: colors.primary,
     width: '100%',
@@ -167,6 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: colors.primary,
     marginHorizontal: '2.5%',
+    marginTop: '5%',
   },
 
   progressView: {

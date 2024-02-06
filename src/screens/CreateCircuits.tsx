@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
-import { title } from '../utils/types';
+import { AppStackScreenProps, title } from '../utils/types';
 import { Dropdown } from 'react-native-element-dropdown';
 import AddSetsModal from '../components/AddSetModal';
 import OutlinedButton from '../components/OutlinedButton';
@@ -32,7 +32,7 @@ interface setObjectInterface2 extends setObjectInterface {
   backgroundColor: string;
 }
 
-const CreateCircuits = () => {
+const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
   const [circuitTitle, setCircuitTitle] = React.useState<title>({
     title: '',
     focus: false,
@@ -108,12 +108,18 @@ const CreateCircuits = () => {
           },
         ]}
       >
-        <Ionicons
-          name='chevron-back'
-          size={height * 0.04}
-          color='white'
-          style={{ marginRight: 4 }}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons
+            name='chevron-back'
+            size={height * 0.04}
+            color='white'
+            style={{ marginRight: 4 }}
+          />
+        </TouchableOpacity>
         <AppTitle text1='Create ' text2='Circuits' fontSize={height * 0.035} />
       </View>
 
