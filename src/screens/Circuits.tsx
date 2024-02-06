@@ -34,8 +34,6 @@ const Circuits = ({ navigation }: AppStackScreenProps) => {
       firestore()
         .collection('Circuits')
         .where('user', '==', user?.email)
-        .orderBy('exercisesLength')
-        .limit(5)
         .get()
         .then((query) => {
           let arr: any = [];
@@ -85,7 +83,7 @@ const Circuits = ({ navigation }: AppStackScreenProps) => {
         </TouchableOpacity>
         <AppTitle text1='Cir' text2='cuits' fontSize={height * 0.035} />
       </View>
-      <View style={{ display: 'flex', flexDirection: 'column' }}>
+      <View style={[styles.basic, { display: 'flex', flexDirection: 'column', marginTop: '5%' }]}>
         <FlatList
           style={{ height: height * 0.8, overflow: 'hidden' }}
           data={circuitsList}
