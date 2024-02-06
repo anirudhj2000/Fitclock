@@ -9,6 +9,7 @@ export type AuthStackParamList = {
 export type AppStackParamList = {
   Home: undefined;
   CreateCircuits: undefined;
+  Circuits: undefined;
 };
 
 export type AppStackScreenProps = NativeStackScreenProps<AppStackParamList>;

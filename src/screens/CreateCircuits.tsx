@@ -23,6 +23,11 @@ import { Ionicons } from '@expo/vector-icons';
 import ExerciseCard from '../components/ExerciseCard';
 import { setObjectInterface } from '../utils/types';
 import { FontAwesome, MaterialIcons, AntDesign } from '@expo/vector-icons';
+import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+import useUserStore from '../utils/store';
 
 const { height, width } = Dimensions.get('window');
 
@@ -32,6 +37,15 @@ interface setObjectInterface2 extends setObjectInterface {
   backgroundColor: string;
 }
 
+function getId() {
+  // Get current timestamp, slice off the milliseconds
+  const timestamp = Date.now().toString().slice(-8);
+  // Generate a random number, slice off the initial '0.'
+  const randomNum = Math.random().toString().slice(2, 10);
+  // Concatenate timestamp and random number
+  return parseInt(timestamp + randomNum, 10).toString();
+}
+
 const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
   const [circuitTitle, setCircuitTitle] = React.useState<title>({
     title: '',
@@ -39,6 +53,8 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
   });
   const [exercisesList, setExercisesList] = React.useState<Array<setObjectInterface2>>([]);
   const [showAddSets, setShowAddSet] = React.useState<boolean>(false);
+  let updateUser = useUserStore((state) => state.updateUser);
+  let userData = useUserStore((state) => state.user);
   const [circuitStats, setCircuitStats] = React.useState({
     time: 0,
     burn: 0,
@@ -84,6 +100,41 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
     setCircuitStats(obj);
   };
 
+  const handleDelete = (index: number) => {
+    let list = [...exercisesList];
+    list.splice(index, 1);
+    setExercisesList(list);
+  };
+
+  const handleSubmit = () => {
+    if (!(exercisesList.length > 0)) {
+      return;
+    }
+
+    let circuitId = getId();
+
+    let obj = {
+      id: circuitId,
+      user: userData.email,
+      title: circuitTitle.title,
+      exercisesLength: exercisesList.length,
+      duration: circuitStats.time,
+      burn: circuitStats.burn,
+      intensity: circuitStats.intensity,
+      exercises: exercisesList,
+    };
+
+    console.log('obj', obj);
+
+    firestore()
+      .collection('Circuits')
+      .doc(circuitId)
+      .set(obj)
+      .then(() => {
+        console.log('Circuit added!');
+      });
+  };
+
   useEffect(() => {
     handleCircuitStats();
   }, [exercisesList]);
@@ -110,6 +161,9 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
       >
         <TouchableOpacity
           onPress={() => {
+            // AsyncStorage.clear();
+            // auth().signOut();
+            // updateUser(null);
             navigation.goBack();
           }}
         >
@@ -253,7 +307,9 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
                 <ExerciseCard
                   type={getType(index, exercisesList.length)}
                   onEdit={() => {}}
-                  onDelete={() => {}}
+                  onDelete={() => {
+                    handleDelete(index);
+                  }}
                   title={item.title}
                   exerciseType={item.type}
                   value={item.value + ''}
@@ -379,6 +435,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
               cal
             </Text>
           </View>
+
           <View style={{ display: 'flex', flexDirection: 'column' }}>
             <Text
               style={{
@@ -444,8 +501,19 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
           },
         ]}
       >
-        <OutlinedButton title={'Clear'} onClick={() => {}} />
-        <ContainedButton title={'Submit'} onClick={() => {}} />
+        <OutlinedButton
+          title={'Clear'}
+          onClick={() => {
+            setExercisesList([]);
+            setCircuitTitle({ title: '', focus: false });
+          }}
+        />
+        <ContainedButton
+          title={'Submit'}
+          onClick={() => {
+            handleSubmit();
+          }}
+        />
       </View>
 
       <AddSetsModal

@@ -5,7 +5,14 @@ import { colors } from '../utils/colors';
 import { Feather } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get('window');
-const CircuitCard = () => {
+
+interface CircuitsInterface {
+  title: string;
+  duration: number;
+  onClick: () => void;
+}
+
+const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
   return (
     <View
       style={{
@@ -19,7 +26,7 @@ const CircuitCard = () => {
       }}
     >
       <Image
-        style={{ height: height * 0.08, width: width * 0.35 }}
+        style={{ height: height * 0.08, width: width * 0.3 }}
         source={{ uri: images[parseInt(Math.random() * 10 + '') % 5] }}
       />
       <View
@@ -31,15 +38,47 @@ const CircuitCard = () => {
         }}
       >
         <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: colors.primary }}>
-          Core Body Circuit
+          {title}
         </Text>
         <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 12, color: colors.secondary }}>
-          45 min
+          {Math.floor(duration / 60) + ' mins'}
         </Text>
       </View>
-      <TouchableOpacity onPress={() => {}}>
-        <Feather name='edit-2' size={16} color={colors.secondary} />
-      </TouchableOpacity>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          width: width * 0.2,
+          justifyContent: 'space-between',
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            onClick();
+          }}
+          style={{
+            borderWidth: 0.5,
+            borderColor: colors.secondary,
+            padding: '10%',
+            borderRadius: height * 0.1,
+          }}
+        >
+          <Feather name='play' size={16} color={colors.secondary} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            onClick();
+          }}
+          style={{
+            borderWidth: 0.5,
+            borderColor: colors.secondary,
+            padding: '10%',
+            borderRadius: height * 0.1,
+          }}
+        >
+          <Feather name='edit-2' size={16} color={colors.secondary} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
