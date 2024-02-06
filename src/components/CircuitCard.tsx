@@ -30,8 +30,12 @@ const CircuitCard = () => {
           width: width * 0.35,
         }}
       >
-        <Text style={{ fontSize: 16, color: colors.primary }}>Core Body Circuit</Text>
-        <Text style={{ fontSize: 12, color: colors.secondary }}>45 min</Text>
+        <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: colors.primary }}>
+          Core Body Circuit
+        </Text>
+        <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 12, color: colors.secondary }}>
+          45 min
+        </Text>
       </View>
       <TouchableOpacity onPress={() => {}}>
         <Feather name='edit-2' size={16} color={colors.secondary} />

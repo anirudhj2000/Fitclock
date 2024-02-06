@@ -211,7 +211,7 @@ const Login = () => {
                 marginHorizontal: '2.5%',
               }}
             />
-            <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>
+            <Text style={{ color: '#000', fontSize: 14, fontFamily: 'Inter_700Bold' }}>
               Login with Google
             </Text>
           </TouchableOpacity>
@@ -233,7 +233,7 @@ const Login = () => {
             <Text
               style={{
                 fontSize: 12,
-                fontWeight: 'bold',
+                fontFamily: 'Inter_700Bold',
                 marginVertical: '2.5%',
                 color: colors.primary,
               }}
@@ -276,11 +276,17 @@ const Login = () => {
               })
             }
           >
-            <Text style={{ textDecorationLine: 'underline', color: colors.primary }}>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                fontFamily: 'Inter_400Regular',
+                color: colors.primary,
+              }}
+            >
               Terms and Conditions
             </Text>
           </TouchableOpacity>
-          <Text style={{ color: colors.primary }}> and </Text>
+          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}> and </Text>
           <TouchableOpacity
             onPress={() =>
               Linking.canOpenURL(
@@ -293,7 +299,13 @@ const Login = () => {
               })
             }
           >
-            <Text style={{ textDecorationLine: 'underline', color: colors.primary }}>
+            <Text
+              style={{
+                fontFamily: 'Inter_400Regular',
+                textDecorationLine: 'underline',
+                color: colors.primary,
+              }}
+            >
               Privacy Policy
             </Text>
           </TouchableOpacity>

@@ -38,7 +38,17 @@
           }
         }
       ],
-      "@react-native-google-signin/google-signin"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter/Inter_700Bold.ttf"
+          ]
+        }
+      ],
+      "@react-native-google-signin/google-signin",
+      "expo-font"
     ],
     "extra": {
       "eas": {

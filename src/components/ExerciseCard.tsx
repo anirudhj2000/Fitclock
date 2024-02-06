@@ -87,7 +87,16 @@ const ExerciseCard = ({
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>{title}</Text>
+          <Text
+            style={{
+              fontFamily: 'Inter_400Regular',
+              color: '#fff',
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}
+          >
+            {title}
+          </Text>
           <View
             style={{
               display: 'flex',
@@ -116,19 +125,25 @@ const ExerciseCard = ({
             style={{ display: 'flex', flexDirection: 'row', width: '50%', alignItems: 'center' }}
           >
             {exerciseType == 'reps' ? (
-              <Text style={{ fontSize: 18, marginRight: 4 }}> 🔁 </Text>
+              <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 18, marginRight: 4 }}>
+                {' '}
+                🔁{' '}
+              </Text>
             ) : (
-              <Text style={{ fontSize: 18, marginRight: 4 }}> ⌛</Text>
+              <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 18, marginRight: 4 }}>
+                {' '}
+                ⌛
+              </Text>
             )}
-            <Text style={{ color: '#fff', fontSize: 14 }}>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff', fontSize: 14 }}>
               {value} {exerciseType == 'reps' ? 'reps' : 'sec'}
             </Text>
           </View>
           <View
             style={{ display: 'flex', flexDirection: 'row', width: '50%', alignItems: 'center' }}
           >
-            <Text style={{ fontSize: 18, marginRight: 4 }}>⏸️</Text>
-            <Text style={{ color: '#fff', fontSize: 14 }}>
+            <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 18, marginRight: 4 }}>⏸️</Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: '#fff', fontSize: 14 }}>
               {rest} {'sec'}
             </Text>
           </View>

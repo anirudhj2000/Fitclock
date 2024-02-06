@@ -7,6 +7,8 @@ import {
   Image,
   Dimensions,
   FlatList,
+  Platform,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import { colors } from '../utils/colors';
@@ -14,6 +16,7 @@ import AppTitle from '../components/AppTitle';
 import { ProgressChart } from 'react-native-chart-kit';
 import CircuitCard from '../components/CircuitCard';
 import { Ionicons } from '@expo/vector-icons';
+import { AppStackScreenProps } from '../utils/types';
 
 const { height, width } = Dimensions.get('window');
 
@@ -31,7 +34,7 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-const Home = () => {
+const Home = ({ navigation }: AppStackScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -70,7 +73,9 @@ const Home = () => {
               justifyContent: 'space-between',
             }}
           >
-            <Text style={{ color: colors.primary, fontSize: 18 }}>Streak</Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary, fontSize: 18 }}>
+              Streak
+            </Text>
             <View style={{ display: 'flex', flexDirection: 'row', marginTop: 4 }}>
               {['S', 'M', 'T', 'W', 'Th'].map((item, index) => {
                 return (
@@ -87,15 +92,21 @@ const Home = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <Text style={{ color: colors.primary }}>{item}</Text>
+                    <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>
+                      {item}
+                    </Text>
                   </View>
                 );
               })}
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text style={{ color: colors.primary, fontSize: 18 }}>Sessions</Text>
-            <Text style={{ color: colors.secondary, fontSize: 28 }}>89</Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary, fontSize: 18 }}>
+              Sessions
+            </Text>
+            <Text style={{ fontFamily: 'Inter_400Regular', color: colors.secondary, fontSize: 28 }}>
+              89
+            </Text>
           </View>
         </View>
       </View>
@@ -107,25 +118,35 @@ const Home = () => {
             width: width * 0.7,
           }}
         >
-          <Text style={{ fontSize: 18, color: colors.primary, marginBottom: '2.5%' }}>
+          <Text
+            style={{
+              fontFamily: 'Inter_400Regular',
+              fontSize: 18,
+              color: colors.primary,
+              marginBottom: '2.5%',
+            }}
+          >
             Create HIIT Circuits
           </Text>
-          <Text style={{ fontSize: 14, color: colors.primary }}>
+          <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: colors.primary }}>
             Craft, sweat, conquer with personalized HIIT circuits. Get fit now!
           </Text>
         </View>
 
-        <View
+        <TouchableOpacity
           style={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
           }}
+          onPress={() => {
+            navigation.navigate('CreateCircuits');
+          }}
         >
           <Ionicons name='flash-outline' size={height * 0.08} color={colors.primary} />
-          <Text style={{ color: colors.primary }}>Start!</Text>
-        </View>
+          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>Start!</Text>
+        </TouchableOpacity>
       </View>
       <View style={{ marginHorizontal: '2.5%', marginTop: '2.5%' }}>
         <AppTitle fontSize={24} text1='CIRC' text2='UITS' />
@@ -154,7 +175,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight,
+    marginTop: Platform.OS == 'ios' ? StatusBar.currentHeight : 0,
     backgroundColor: colors.background,
     color: colors.primary,
     width: '100%',
@@ -167,6 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: colors.primary,
     marginHorizontal: '2.5%',
+    marginTop: '5%',
   },
 
   progressView: {

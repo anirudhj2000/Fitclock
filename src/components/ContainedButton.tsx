@@ -17,7 +17,7 @@ const ContainedButton = ({ title, onClick }: OutlinedButtonInterface) => {
       }}
       onPress={onClick}
     >
-      <Text style={{ color: colors.primary }}>{title}</Text>
+      <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>{title}</Text>
     </TouchableOpacity>
   );
 };
