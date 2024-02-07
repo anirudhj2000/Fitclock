@@ -232,8 +232,8 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
-              // navigation.navigate('Circuits');
-              setShowLoading(true);
+              navigation.navigate('CircuitEndScreen');
+              // setShowLoading(true);
             }}
           >
             <Text
