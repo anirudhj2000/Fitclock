@@ -11,6 +11,8 @@ export type AppStackParamList = {
   Home: undefined;
   CreateCircuits: undefined;
   Circuits: undefined;
+  CircuitPlayer: undefined;
+  CircuitEndScreen: undefined;
 };
 
 export type AppStackScreenProps = NativeStackScreenProps<AppStackParamList>;
