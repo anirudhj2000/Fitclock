@@ -1,4 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NavigationProp } from '@react-navigation/native';
 
 // Navigation Types
 
@@ -13,6 +14,8 @@ export type AppStackParamList = {
 };
 
 export type AppStackScreenProps = NativeStackScreenProps<AppStackParamList>;
+
+export type AppNavigationProp = NavigationProp<AppStackParamList>;
 
 // Component Types
 

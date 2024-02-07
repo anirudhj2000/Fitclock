@@ -25,6 +25,7 @@ import { Inter_400Regular } from '@expo-google-fonts/inter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import BottomNavigator from '../components/BottomNavigator';
+import CircuitsLoader from '../components/CircuitsLoader';
 
 const { height, width } = Dimensions.get('window');
 
@@ -48,6 +49,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
   let updateUser = useUserStore((state) => state.updateUser);
   const [circuitsList, setCircuitsList] = useState<Array<any>>([]);
   const [selected, setSelected] = React.useState<number>(0);
+  const [showLoading, setShowLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     getCricuitList();
@@ -230,7 +232,8 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
-              navigation.navigate('Circuits');
+              // navigation.navigate('Circuits');
+              setShowLoading(true);
             }}
           >
             <Text
@@ -295,7 +298,15 @@ const Home = ({ navigation }: AppStackScreenProps) => {
               );
             }}
             renderItem={({ item, index }) => {
-              return <CircuitCard title={item.title} duration={item.duration} onClick={() => {}} />;
+              return (
+                <CircuitCard
+                  title={item.title}
+                  duration={item.duration}
+                  onClick={() => {
+                    setShowLoading(true);
+                  }}
+                />
+              );
             }}
           />
         </View>
@@ -318,6 +329,12 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           }}
         />
       </View>
+      <CircuitsLoader
+        visible={showLoading}
+        onClose={() => {
+          setShowLoading(false);
+        }}
+      />
     </SafeAreaView>
   );
 };
