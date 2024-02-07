@@ -51,6 +51,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
 
   useEffect(() => {
     getCricuitList();
+    setSelected(0);
   }, [focused]);
 
   const getCricuitList = () => {
@@ -75,6 +76,14 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           console.log('err', err);
         });
     }
+  };
+
+  const handleBottomNavigationSelect = (index: number) => {
+    index == 0
+      ? navigation.navigate('Home')
+      : index == 1
+        ? navigation.navigate('CreateCircuits')
+        : navigation.navigate('Circuits');
   };
 
   return (
@@ -305,6 +314,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           selected={selected}
           onClick={(index) => {
             setSelected(index);
+            handleBottomNavigationSelect(index);
           }}
         />
       </View>
