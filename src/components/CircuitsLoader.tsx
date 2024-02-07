@@ -12,7 +12,7 @@ interface CircuitsLoaderInterface {
 }
 
 const CircuitsLoader = ({ visible, onClose }: CircuitsLoaderInterface) => {
-  const [value, setValue] = useState<number>(5);
+  const [value, setValue] = useState<number>(3);
   const intervalId = useRef<NodeJS.Timeout | null>(null);
   const navigation = useNavigation<AppNavigationProp>();
 
@@ -34,9 +34,9 @@ const CircuitsLoader = ({ visible, onClose }: CircuitsLoaderInterface) => {
     if (value == 0) {
       if (intervalId.current !== null) {
         clearInterval(intervalId.current);
-        navigation.navigate('Circuits');
+        navigation.navigate('CircuitPlayer');
         onClose();
-        setValue(5);
+        setValue(3);
       }
     }
   }, [value]);
@@ -65,7 +65,7 @@ const CircuitsLoader = ({ visible, onClose }: CircuitsLoaderInterface) => {
             }}
             onPress={() => {
               onClose();
-              setValue(5);
+              setValue(3);
               if (intervalId.current !== null) {
                 clearInterval(intervalId.current);
               }
