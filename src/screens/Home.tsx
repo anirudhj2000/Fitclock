@@ -94,9 +94,9 @@ const Home = ({ navigation }: AppStackScreenProps) => {
         <AppTitle fontSize={28} text1='FIT' text2='CLOCK' />
         <TouchableOpacity
           onPress={() => {
-            AsyncStorage.clear();
-            auth().signOut();
-            updateUser(null);
+            // AsyncStorage.clear();
+            // auth().signOut();
+            // updateUser(null);
           }}
           style={{ display: 'flex', flexDirection: 'row' }}
         >
@@ -232,7 +232,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
-              navigation.navigate('CircuitEndScreen');
+              navigation.navigate('Circuits');
               // setShowLoading(true);
             }}
           >
