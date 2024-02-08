@@ -24,6 +24,8 @@ import { setObjectInterface } from '../utils/types';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
+import BottomNavigator from '../components/BottomNavigator';
+import CircuitsLoader from '../components/CircuitsLoader';
 
 const { height, width } = Dimensions.get('window');
 
@@ -46,9 +48,12 @@ const Home = ({ navigation }: AppStackScreenProps) => {
   const user = useUserStore((state) => state.user);
   let updateUser = useUserStore((state) => state.updateUser);
   const [circuitsList, setCircuitsList] = useState<Array<any>>([]);
+  const [selected, setSelected] = React.useState<number>(0);
+  const [showLoading, setShowLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     getCricuitList();
+    setSelected(0);
   }, [focused]);
 
   const getCricuitList = () => {
@@ -73,6 +78,14 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           console.log('err', err);
         });
     }
+  };
+
+  const handleBottomNavigationSelect = (index: number) => {
+    index == 0
+      ? navigation.navigate('Home')
+      : index == 1
+        ? navigation.navigate('CreateCircuits')
+        : navigation.navigate('Circuits');
   };
 
   return (
@@ -157,7 +170,26 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           </View>
         </View>
       </View>
-      <View style={[styles.progressView, { height: height * 0.14 }]}>
+      <TouchableOpacity
+        style={[
+          styles.progressView,
+          { height: height * 0.125, justifyContent: 'space-between', paddingHorizontal: '1.5%' },
+        ]}
+        onPress={() => {
+          navigation.navigate('CreateCircuits');
+        }}
+      >
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Ionicons name='flash-outline' size={height * 0.08} color={colors.primary} />
+          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>Start!</Text>
+        </View>
         <View
           style={{
             display: 'flex',
@@ -171,30 +203,22 @@ const Home = ({ navigation }: AppStackScreenProps) => {
               fontSize: 18,
               color: colors.primary,
               marginBottom: '2.5%',
+              textDecorationLine: 'underline',
             }}
           >
-            Create HIIT Circuits
+            {'Create HIIT Circuits !! '}
           </Text>
-          <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: colors.primary }}>
+          <Text
+            style={{
+              fontFamily: 'Inter_400Regular',
+              fontSize: 14,
+              color: colors.primary,
+            }}
+          >
             Craft, sweat, conquer with personalized HIIT circuits. Get fit now!
           </Text>
         </View>
-
-        <TouchableOpacity
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onPress={() => {
-            navigation.navigate('CreateCircuits');
-          }}
-        >
-          <Ionicons name='flash-outline' size={height * 0.08} color={colors.primary} />
-          <Text style={{ fontFamily: 'Inter_400Regular', color: colors.primary }}>Start!</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
       <View style={{ marginHorizontal: '2.5%', marginTop: '2.5%' }}>
         <View
           style={{
@@ -208,7 +232,8 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
-              navigation.navigate('Circuits');
+              navigation.navigate('CircuitEndScreen');
+              // setShowLoading(true);
             }}
           >
             <Text
@@ -273,11 +298,43 @@ const Home = ({ navigation }: AppStackScreenProps) => {
               );
             }}
             renderItem={({ item, index }) => {
-              return <CircuitCard title={item.title} duration={item.duration} onClick={() => {}} />;
+              return (
+                <CircuitCard
+                  title={item.title}
+                  duration={item.duration}
+                  onClick={() => {
+                    setShowLoading(true);
+                  }}
+                />
+              );
             }}
           />
         </View>
       </View>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        <BottomNavigator
+          selected={selected}
+          onClick={(index) => {
+            setSelected(index);
+            handleBottomNavigationSelect(index);
+          }}
+        />
+      </View>
+      <CircuitsLoader
+        visible={showLoading}
+        onClose={() => {
+          setShowLoading(false);
+        }}
+      />
     </SafeAreaView>
   );
 };
