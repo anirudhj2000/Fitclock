@@ -9,7 +9,7 @@ import {
   View,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppStackScreenProps } from '../utils/types';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons, Fontisto } from '@expo/vector-icons';
 import AppTitle from '../components/AppTitle';
@@ -17,11 +17,18 @@ import { colors } from '../utils/colors';
 import { Inter_700Bold } from '@expo-google-fonts/inter';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import CircuitEndModal from '../components/CircuitEndModal';
+import CircuitsLoader from '../components/CircuitsLoader';
 
 const { height, width } = Dimensions.get('window');
 
 const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
   const [showCircuitEndModal, setShowCircuitEndModal] = React.useState(false);
+  const [showLoading, setShowLoading] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    setShowLoading(true);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -205,6 +212,14 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
         showModal={showCircuitEndModal}
         handleClose={() => {
           setShowCircuitEndModal(false);
+          navigation.navigate('Home');
+        }}
+      />
+
+      <CircuitsLoader
+        visible={showLoading}
+        onClose={() => {
+          setShowLoading(false);
         }}
       />
     </SafeAreaView>
