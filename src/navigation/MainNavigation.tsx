@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CreateCircuits from '../screens/CreateCircuits';
 import Circuits from '../screens/Circuits';
 import CircuitPlayer from '../screens/CircuitPlayer';
-import CircuitEndScreen from '../screens/CircuitEndScreen';
+import CircuitEndScreen from '../components/CircuitEndModal';
 
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
@@ -17,7 +17,6 @@ function AppStackNavigator() {
       <AppStack.Screen name='Circuits' component={Circuits} />
       <AppStack.Screen name='CreateCircuits' component={CreateCircuits} />
       <AppStack.Screen name='CircuitPlayer' component={CircuitPlayer} />
-      <AppStack.Screen name='CircuitEndScreen' component={CircuitEndScreen} />
     </AppStack.Navigator>
   );
 }
