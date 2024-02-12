@@ -127,7 +127,16 @@ const Circuits = ({ navigation }: AppStackScreenProps) => {
             );
           }}
           renderItem={({ item, index }) => {
-            return <CircuitCard title={item.title} duration={item.duration} onClick={() => {}} />;
+            return (
+              <CircuitCard
+                title={item.title}
+                duration={item.duration}
+                onClick={() => {
+                  navigation.navigate('CircuitPlayer');
+                }}
+                onEdit={() => {}}
+              />
+            );
           }}
         />
       </View>

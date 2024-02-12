@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import AppStackNavigator from './src/navigation/MainNavigation';
 import { colors } from './src/utils/colors';
 import LoginStackNavigator from './src/navigation/AuthNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import useUserStore from './src/utils/store';
 import Toast from 'react-native-toast-message';
 import React from 'react';
+import { AppDrawerNavigator } from './src/navigation/MainNavigation';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
 
 export default function App() {
@@ -34,7 +34,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Toast />
       <NavigationContainer>
-        {userData ? <AppStackNavigator /> : <LoginStackNavigator />}
+        {userData ? <AppDrawerNavigator /> : <LoginStackNavigator />}
       </NavigationContainer>
     </GestureHandlerRootView>
   );

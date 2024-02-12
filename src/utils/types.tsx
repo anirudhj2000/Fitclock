@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, NavigatorScreenParams } from '@react-navigation/native';
 
 // Navigation Types
 
@@ -12,7 +12,6 @@ export type AppStackParamList = {
   CreateCircuits: undefined;
   Circuits: undefined;
   CircuitPlayer: undefined;
-  CircuitEndScreen: undefined;
 };
 
 export type AppStackScreenProps = NativeStackScreenProps<AppStackParamList>;
@@ -33,3 +32,7 @@ export interface setObjectInterface {
   rest: number;
   type: string;
 }
+
+export type AppDrawerParams = {
+  App: NavigatorScreenParams<AppStackParamList>;
+};
