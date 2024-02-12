@@ -89,6 +89,13 @@ const Home = ({ navigation }: AppStackScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor={'black'}
+        barStyle={'light-content'}
+        showHideTransition={'slide'}
+        hidden={false}
+      />
       <View style={styles.header}>
         <AppTitle fontSize={28} text1='FIT' text2='CLOCK' />
         <TouchableOpacity
@@ -304,6 +311,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
                   onClick={() => {
                     navigation.navigate('CircuitPlayer');
                   }}
+                  onEdit={() => {}}
                 />
               );
             }}
