@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message';
 import React from 'react';
 import { AppDrawerNavigator } from './src/navigation/MainNavigation';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function App() {
   let userData = useUserStore((state) => state.user);
@@ -22,6 +23,7 @@ export default function App() {
 
   useEffect(() => {
     fetchInfo();
+    // NavigationBar.setVisibilityAsync('hidden');
   }, []);
 
   const fetchInfo = async () => {
