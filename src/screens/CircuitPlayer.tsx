@@ -16,10 +16,12 @@ import AppTitle from '../components/AppTitle';
 import { colors } from '../utils/colors';
 import { Inter_700Bold } from '@expo-google-fonts/inter';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import CircuitEndModal from '../components/CircuitEndModal';
 
 const { height, width } = Dimensions.get('window');
 
 const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
+  const [showCircuitEndModal, setShowCircuitEndModal] = React.useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -136,7 +138,7 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
         <View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('CircuitEndScreen');
+              setShowCircuitEndModal(true);
             }}
           >
             <MaterialCommunityIcons
@@ -198,6 +200,13 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
           <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: '#fff' }}>Burn</Text>
         </View>
       </View>
+
+      <CircuitEndModal
+        showModal={showCircuitEndModal}
+        handleClose={() => {
+          setShowCircuitEndModal(false);
+        }}
+      />
     </SafeAreaView>
   );
 };
