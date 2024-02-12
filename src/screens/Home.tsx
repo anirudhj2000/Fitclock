@@ -26,6 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import BottomNavigator from '../components/BottomNavigator';
 import CircuitsLoader from '../components/CircuitsLoader';
+import ConfirmModal from '../components/ConfirmModal';
 
 const { height, width } = Dimensions.get('window');
 
@@ -49,6 +50,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
   let updateUser = useUserStore((state) => state.updateUser);
   const [circuitsList, setCircuitsList] = useState<Array<any>>([]);
   const [selected, setSelected] = React.useState<number>(0);
+  const [showModal, setShowModal] = React.useState<boolean>(false);
 
   useEffect(() => {
     getCricuitList();
@@ -238,8 +240,9 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           <TouchableOpacity
             style={{ marginRight: '2.5%' }}
             onPress={() => {
-              navigation.navigate('CircuitPlayer');
+              // navigation.navigate('CircuitPlayer');
               // setShowLoading(true);
+              setShowModal(true);
             }}
           >
             <Text
@@ -336,6 +339,14 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           }}
         />
       </View>
+      <ConfirmModal
+        visible={showModal}
+        onCancel={() => {
+          setShowModal(false);
+        }}
+        onConfirm={() => {}}
+        title={'Are you sure you want to proceed with this action?'}
+      />
     </SafeAreaView>
   );
 };
