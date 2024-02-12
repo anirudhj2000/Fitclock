@@ -9,9 +9,10 @@ import { AppNavigationProp, AppStackParamList, AppStackScreenProps } from '../ut
 interface CircuitsLoaderInterface {
   visible: boolean;
   onClose: () => void;
+  onCancel: () => void;
 }
 
-const CircuitsLoader = ({ visible, onClose }: CircuitsLoaderInterface) => {
+const CircuitsLoader = ({ visible, onClose, onCancel }: CircuitsLoaderInterface) => {
   const [value, setValue] = useState<number>(3);
   const intervalId = useRef<NodeJS.Timeout | null>(null);
   const navigation = useNavigation<AppNavigationProp>();
@@ -64,7 +65,7 @@ const CircuitsLoader = ({ visible, onClose }: CircuitsLoaderInterface) => {
               marginVertical: '5%',
             }}
             onPress={() => {
-              onClose();
+              onCancel();
               setValue(3);
               if (intervalId.current !== null) {
                 clearInterval(intervalId.current);

@@ -221,6 +221,7 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
         onClose={() => {
           setShowLoading(false);
         }}
+        onCancel={() => navigation.goBack()}
       />
     </SafeAreaView>
   );
