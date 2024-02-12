@@ -10,9 +10,10 @@ interface CircuitsInterface {
   title: string;
   duration: number;
   onClick: () => void;
+  onEdit: () => void;
 }
 
-const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
+const CircuitCard = ({ title, duration, onClick, onEdit }: CircuitsInterface) => {
   return (
     <View
       style={{
@@ -67,7 +68,7 @@ const CircuitCard = ({ title, duration, onClick }: CircuitsInterface) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            onClick();
+            onEdit();
           }}
           style={{
             borderWidth: 0.5,
