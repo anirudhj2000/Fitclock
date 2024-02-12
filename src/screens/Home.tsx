@@ -27,6 +27,8 @@ import auth from '@react-native-firebase/auth';
 import BottomNavigator from '../components/BottomNavigator';
 import CircuitsLoader from '../components/CircuitsLoader';
 import ConfirmModal from '../components/ConfirmModal';
+import { HomeScreenProps } from '../utils/types';
+import ProfileAction from '../components/ProfileAction';
 
 const { height, width } = Dimensions.get('window');
 
@@ -100,19 +102,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
       />
       <View style={styles.header}>
         <AppTitle fontSize={28} text1='FIT' text2='CLOCK' />
-        <TouchableOpacity
-          onPress={() => {
-            AsyncStorage.clear();
-            auth().signOut();
-            updateUser(null);
-          }}
-          style={{ display: 'flex', flexDirection: 'row' }}
-        >
-          <Image
-            style={{ height: height * 0.035, width: height * 0.035 }}
-            source={require('../../assets/guy.png')}
-          />
-        </TouchableOpacity>
+        <ProfileAction />
       </View>
       <View style={[styles.progressView, styles.shadowProp]}>
         <ProgressChart
@@ -265,7 +255,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           }}
         >
           <FlatList
-            style={{ height: height * 0.4, overflow: 'hidden' }}
+            style={{ height: height * 0.3, overflow: 'hidden' }}
             data={circuitsList}
             keyExtractor={(item, index) => index.toString()}
             ListEmptyComponent={() => {
@@ -329,6 +319,7 @@ const Home = ({ navigation }: AppStackScreenProps) => {
           flexDirection: 'row',
           width: '100%',
           justifyContent: 'center',
+          marginBottom: '2.5%',
         }}
       >
         <BottomNavigator

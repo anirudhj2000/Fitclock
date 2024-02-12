@@ -1,5 +1,10 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { NavigationProp, NavigatorScreenParams } from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  NavigationProp,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
 // Navigation Types
 
@@ -36,3 +41,8 @@ export interface setObjectInterface {
 export type AppDrawerParams = {
   App: NavigatorScreenParams<AppStackParamList>;
 };
+
+export type HomeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<AppDrawerParams>,
+  DrawerScreenProps<AppStackParamList>
+>;

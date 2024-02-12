@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 import useUserStore from '../utils/store';
+import { colors } from '../utils/colors';
 
 const { height, width } = Dimensions.get('window');
 
@@ -14,25 +15,24 @@ let screens = [
     name: 'Home',
   },
   {
-    screen: 'Products',
+    screen: 'Circuits',
     icon: 'basket-outline',
-    name: 'Products',
+    name: 'Circuits',
   },
   {
-    screen: 'Scanner',
+    screen: 'CreateCircuits',
     icon: 'barcode-scan',
-    name: 'Add Products',
+    name: 'Add Circuits',
   },
 ];
 
 const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
-  //   const [user, setUser] = React.useState<any>({});
+  const [user, setUser] = React.useState<any>({});
   const updateUser = useUserStore((state) => state.updateUser);
-  const user = useUserStore((state) => state.user);
-  console.log('user', user.email);
-  //   useEffect(() => {
-  //     fetchInfo();
-  //   }, []);
+  // const user = useUserStore((state) => state.user);
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   const handleLogout = () => {
     auth()
@@ -44,18 +44,18 @@ const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
       });
   };
 
-  //   const fetchInfo = async () => {
-  //     const userData = await AsyncStorage.getItem('user');
-  //     if (userData) {
-  //       setUser(JSON.parse(userData));
-  //     }
-  //   };
+  const fetchInfo = async () => {
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  };
   return (
     <View
       style={{
         height: '100%',
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: '#035e5e',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -100,13 +100,26 @@ const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
                 backgroundColor: '#556565',
               }}
             >
-              <Text style={{ fontSize: 24, color: '#fff' }}>
+              <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 24, color: '#fff' }}>
                 {user?.name?.length > 0 ? user.name[0] : '0'}
               </Text>
             </View>
           )}
-          <Text style={{ fontSize: 16, color: '#000', marginTop: '5%' }}>{user?.name}</Text>
-          <Text style={{ fontSize: 12, color: '#000', marginTop: '2.5%' }}>{user?.email}</Text>
+          <Text
+            style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: '#fff', marginTop: '5%' }}
+          >
+            {user?.name}
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Inter_400Regular',
+              fontSize: 12,
+              color: '#fff',
+              marginTop: '2.5%',
+            }}
+          >
+            {user?.email}
+          </Text>
         </View>
         <View
           style={{
@@ -131,12 +144,21 @@ const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
                   alignItems: 'center',
                   borderWidth: 0.7,
                   borderColor: '#c7c7c7',
-                  marginBottom: '2.5%',
+                  marginBottom: '5%',
                   padding: '5%',
                   borderRadius: 8,
+                  backgroundColor: '#fff',
                 }}
               >
-                <Text style={{ fontSize: 16, marginHorizontal: '5%', color: '#000' }}>
+                <Text
+                  style={{
+                    fontFamily: 'Inter_400Regular',
+                    fontSize: 16,
+                    marginHorizontal: '5%',
+                    color: '#000',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {item.name}
                 </Text>
               </TouchableOpacity>
@@ -161,7 +183,16 @@ const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
           alignItems: 'center',
         }}
       >
-        <Text style={{ color: '#fff', fontSize: 16, marginHorizontal: '2.5%' }}>Logout</Text>
+        <Text
+          style={{
+            fontFamily: 'Inter_400Regular',
+            color: '#fff',
+            fontSize: 16,
+            marginHorizontal: '2.5%',
+          }}
+        >
+          Logout
+        </Text>
       </TouchableOpacity>
     </View>
   );
