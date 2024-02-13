@@ -42,7 +42,7 @@ const CircuitCard = ({ title, duration, onClick, onEdit }: CircuitsInterface) =>
           {title}
         </Text>
         <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 12, color: colors.secondary }}>
-          {Math.floor(duration / 60) + ' mins'}
+          {duration + ' mins'}
         </Text>
       </View>
       <View
