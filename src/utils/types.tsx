@@ -14,7 +14,7 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   Home: undefined;
-  CreateCircuits: undefined;
+  CreateCircuits: { id: string } | undefined;
   Circuits: undefined;
   CircuitPlayer: undefined;
 };

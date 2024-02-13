@@ -55,8 +55,10 @@ const Home = ({ navigation }: AppStackScreenProps) => {
   const [showModal, setShowModal] = React.useState<boolean>(false);
 
   useEffect(() => {
-    getCricuitList();
-    setSelected(0);
+    if (focused) {
+      getCricuitList();
+      setSelected(0);
+    }
   }, [focused]);
 
   const getCricuitList = () => {
@@ -304,7 +306,9 @@ const Home = ({ navigation }: AppStackScreenProps) => {
                   onClick={() => {
                     navigation.navigate('CircuitPlayer');
                   }}
-                  onEdit={() => {}}
+                  onEdit={() => {
+                    navigation.navigate('CreateCircuits', { id: item.id });
+                  }}
                 />
               );
             }}
