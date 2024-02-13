@@ -30,6 +30,7 @@ interface ModalInterface {
   modalVisible: boolean;
   handleModalClose: () => void;
   handleSubmit: (obj: setObjectInterface) => void;
+  exercise: string;
 }
 
 const TIME = [
@@ -112,7 +113,12 @@ const data = [
   { label: 'Side Lunges', value: 'SL' },
 ];
 
-const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInterface) => {
+const AddSetsModal = ({
+  modalVisible,
+  handleModalClose,
+  handleSubmit,
+  exercise,
+}: ModalInterface) => {
   const [selectedType, setSelectedType] = React.useState<number>(0);
   const [selectedValue, setSelectedValue] = React.useState<string>('');
   const [restValue, setRestValue] = React.useState<string>('15 secs');
@@ -151,6 +157,12 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
     transform: [{ translateY: Math.max(0, offset.value) }],
   }));
 
+  useEffect(() => {
+    if (exercise.length > 0) {
+      setValue(exercise);
+    }
+  }, [exercise]);
+
   const handleClear = () => {
     setSelectedType(0);
     setSelectedValue('');
@@ -187,9 +199,8 @@ const AddSetsModal = ({ modalVisible, handleModalClose, handleSubmit }: ModalInt
       }
     });
 
-    console.log('obj set', obj);
-
     handleSubmit(obj);
+    handleClear();
   };
 
   return (
