@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { colors } from '../utils/colors';
 import AppTitle from '../components/AppTitle';
-import { AppStackScreenProps, title } from '../utils/types';
+import { AppStackParamList, AppStackScreenProps, title } from '../utils/types';
 import { Dropdown } from 'react-native-element-dropdown';
 import AddSetsModal from '../components/AddSetModal';
 import OutlinedButton from '../components/OutlinedButton';
@@ -28,6 +28,7 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import useUserStore from '../utils/store';
+import { RouteProp } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -46,13 +47,19 @@ function getId() {
   return parseInt(timestamp + randomNum, 10).toString();
 }
 
-const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
+interface CreateCircuitsScreenProps extends AppStackScreenProps {
+  route: RouteProp<AppStackParamList, 'CreateCircuits'>;
+  // ... other props
+}
+
+const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route }) => {
   const [circuitTitle, setCircuitTitle] = React.useState<title>({
     title: '',
     focus: false,
   });
   const [exercisesList, setExercisesList] = React.useState<Array<setObjectInterface2>>([]);
   const [showAddSets, setShowAddSet] = React.useState<boolean>(false);
+  const [editExercise, setEditExercise] = React.useState<string>('');
   let updateUser = useUserStore((state) => state.updateUser);
   let userData = useUserStore((state) => state.user);
   const [circuitStats, setCircuitStats] = React.useState({
@@ -60,6 +67,29 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
     burn: 0,
     intensity: '',
   });
+
+  useEffect(() => {
+    if (route.params?.id) {
+      console.log('console', route.params?.id);
+      getCircuitData(route.params?.id);
+    }
+  }, [route.params]);
+
+  const getCircuitData = (id: string) => {
+    firestore()
+      .collection('Circuits')
+      .doc(id)
+      .get()
+      .then((documentSnapshot) => {
+        console.log('User exists: ', documentSnapshot.exists);
+
+        if (documentSnapshot.exists) {
+          console.log('Circuits data: ', documentSnapshot.data());
+          setExercisesList(documentSnapshot.data()?.exercises);
+          setCircuitTitle({ title: documentSnapshot.data()?.title, focus: false });
+        }
+      });
+  };
 
   const getType = (index: number, length: number) => {
     if (length == 1) {
@@ -111,7 +141,12 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
       return;
     }
 
-    let circuitId = getId();
+    let circuitId = '';
+    if (route.params?.id) {
+      circuitId = route.params?.id;
+    } else {
+      circuitId = getId();
+    }
 
     let obj = {
       id: circuitId,
@@ -132,6 +167,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
       .set(obj)
       .then(() => {
         console.log('Circuit added!');
+        navigation.navigate('Home');
       });
   };
 
@@ -306,7 +342,10 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
               return (
                 <ExerciseCard
                   type={getType(index, exercisesList.length)}
-                  onEdit={() => {}}
+                  onEdit={() => {
+                    setEditExercise(item.exercise);
+                    setShowAddSet(true);
+                  }}
                   onDelete={() => {
                     handleDelete(index);
                   }}
@@ -526,6 +565,7 @@ const CreateCircuits = ({ navigation }: AppStackScreenProps) => {
           setExercisesList(setsArray);
           setShowAddSet(false);
         }}
+        exercise={editExercise}
       />
     </SafeAreaView>
   );
