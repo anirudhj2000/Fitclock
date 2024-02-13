@@ -134,7 +134,9 @@ const Circuits = ({ navigation }: AppStackScreenProps) => {
                 onClick={() => {
                   navigation.navigate('CircuitPlayer');
                 }}
-                onEdit={() => {}}
+                onEdit={() => {
+                  navigation.navigate('CreateCircuits', { id: item.id });
+                }}
               />
             );
           }}
