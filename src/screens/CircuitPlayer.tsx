@@ -38,7 +38,7 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
         showHideTransition={'slide'}
         hidden={true}
       />
-      <View
+      {/* <View
         style={[
           styles.basic,
           {
@@ -57,8 +57,8 @@ const CircuitPlayer = ({ navigation }: AppStackScreenProps) => {
         >
           <Ionicons name='close' size={height * 0.04} color='white' style={{ marginRight: 4 }} />
         </TouchableOpacity>
-      </View>
-      <View style={[styles.basic, { display: 'flex', flexDirection: 'column', marginTop: '10%' }]}>
+      </View> */}
+      <View style={[styles.basic, { display: 'flex', flexDirection: 'column', marginTop: '15%' }]}>
         <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: colors.secondary }}>
           {' HIIT Circuit (No Equipment) '}
         </Text>

@@ -68,7 +68,7 @@ const CircuitEndModal = ({ showModal, handleClose }: CircuitEndModalInterface) =
         <GestureHandlerRootView style={{ flex: 1 }}>
           <View style={styles.centeredView}>
             <Animated.View style={[styles.modalView, animatedStyles]}>
-              <View
+              {/* <View
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -89,7 +89,7 @@ const CircuitEndModal = ({ showModal, handleClose }: CircuitEndModalInterface) =
                     ]}
                   ></View>
                 </GestureDetector>
-              </View>
+              </View> */}
               <View style={styles.container}>
                 <ConfettiCannon count={200} origin={{ x: 0, y: 0 }} autoStart={true} fadeOut />
                 <View
@@ -98,7 +98,7 @@ const CircuitEndModal = ({ showModal, handleClose }: CircuitEndModalInterface) =
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignSelf: 'center',
-                    marginTop: '7.5%',
+                    marginTop: '2.5%',
                   }}
                 >
                   <View
@@ -220,7 +220,7 @@ const CircuitEndModal = ({ showModal, handleClose }: CircuitEndModalInterface) =
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    marginTop: '15%',
+                    marginTop: '10%',
                     padding: '2.5%',
                     alignItems: 'center',
                   }}
@@ -339,11 +339,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#000000aa',
+    backgroundColor: '#000000cc',
   },
   modalView: {
     backgroundColor: colors.background,
-    height: '60%',
+    height: '55%',
     width: '90%',
     shadowOffset: {
       width: 0,
