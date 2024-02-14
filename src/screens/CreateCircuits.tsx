@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import useUserStore from '../utils/store';
 import { RouteProp } from '@react-navigation/native';
+import ConfirmModal from '../components/ConfirmModal';
 
 const { height, width } = Dimensions.get('window');
 
@@ -67,6 +68,7 @@ const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route
     burn: 0,
     intensity: '',
   });
+  const [showModal, setShowModal] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (route.params?.id) {
@@ -138,6 +140,11 @@ const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route
 
   const handleSubmit = () => {
     if (!(exercisesList.length > 0)) {
+      Toast.show({
+        type: 'info',
+        text1: `Add Exercises to create circuits`,
+        position: 'top',
+      });
       return;
     }
 
@@ -166,8 +173,20 @@ const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route
       .doc(circuitId)
       .set(obj)
       .then(() => {
+        Toast.show({
+          type: 'success',
+          text1: `${obj.title} set added !!`,
+          position: 'top',
+        });
         console.log('Circuit added!');
         navigation.navigate('Home');
+      })
+      .catch((err) => {
+        Toast.show({
+          type: 'error',
+          text1: `Some error has occurred!`,
+          position: 'top',
+        });
       });
   };
 
@@ -550,7 +569,7 @@ const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route
         <ContainedButton
           title={'Submit'}
           onClick={() => {
-            handleSubmit();
+            setShowModal(true);
           }}
         />
       </View>
@@ -566,6 +585,16 @@ const CreateCircuits: React.FC<CreateCircuitsScreenProps> = ({ navigation, route
           setShowAddSet(false);
         }}
         exercise={editExercise}
+      />
+
+      <ConfirmModal
+        visible={showModal}
+        title={'Are you sure you can to create circuit ? '}
+        onCancel={() => setShowModal(false)}
+        onConfirm={() => {
+          handleSubmit();
+          setShowModal(false);
+        }}
       />
     </SafeAreaView>
   );

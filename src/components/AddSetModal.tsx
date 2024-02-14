@@ -23,6 +23,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import OutlinedButton from './OutlinedButton';
 import ContainedButton from './ContainedButton';
 import { setObjectInterface } from '../utils/types';
+import Toast from 'react-native-toast-message';
 
 const { height, width } = Dimensions.get('window');
 
@@ -200,6 +201,11 @@ const AddSetsModal = ({
     });
 
     handleSubmit(obj);
+    Toast.show({
+      type: 'success',
+      text1: `${obj.title} set added !!`,
+      position: 'top',
+    });
     handleClear();
   };
 

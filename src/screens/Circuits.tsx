@@ -17,6 +17,7 @@ import { AppStackScreenProps } from '../utils/types';
 import useUserStore from '../utils/store';
 import firestore from '@react-native-firebase/firestore';
 import CircuitCard from '../components/CircuitCard';
+import Toast from 'react-native-toast-message';
 
 const { height, width } = Dimensions.get('window');
 
@@ -44,10 +45,20 @@ const Circuits = ({ navigation }: AppStackScreenProps) => {
           });
           console.log('arr', arr);
           setCircuitsList(arr);
+        })
+        .catch(() => {
+          Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: 'Some error has occurred!!',
+          });
         });
   };
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ zIndex: 10 }}>
+        <Toast />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={'black'}
