@@ -29,6 +29,7 @@ import CircuitsLoader from '../components/CircuitsLoader';
 import ConfirmModal from '../components/ConfirmModal';
 import { HomeScreenProps } from '../utils/types';
 import ProfileAction from '../components/ProfileAction';
+import Toast from 'react-native-toast-message';
 
 const { height, width } = Dimensions.get('window');
 
@@ -81,6 +82,13 @@ const Home = ({ navigation }: AppStackScreenProps) => {
         })
         .catch((err: any) => {
           console.log('err', err);
+        })
+        .catch(() => {
+          Toast.show({
+            position: 'top',
+            type: 'error',
+            text1: 'Some error has occurred!!',
+          });
         });
     }
   };
@@ -95,6 +103,9 @@ const Home = ({ navigation }: AppStackScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ zIndex: 10 }}>
+        <Toast />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={'black'}
