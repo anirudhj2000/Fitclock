@@ -189,6 +189,7 @@ const SignupModal = ({ modalVisible, handleModalClose }: ModalInterface) => {
 
   return (
     <View style={{ display: 'flex' }}>
+      <Toast position='top' />
       <Modal
         animationType='slide'
         transparent={true}

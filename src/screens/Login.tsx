@@ -101,33 +101,33 @@ const Login = () => {
                     name: res.user.displayName,
                   }),
                 );
-                // updateUser({
-                //   email: res.user.email,
-                //   image: res.user.photoURL,
-                //   name: res.user.displayName,
-                // });
+                updateUser({
+                  email: res.user.email,
+                  image: res.user.photoURL,
+                  name: res.user.displayName,
+                });
               }
             })
             .catch((err) => {
               auth().signOut();
-              //   updateUser(null);
+              updateUser(null);
               AsyncStorage.clear();
-              //   Toast.show({
-              //     type: 'error',
-              //     text1: 'Some error has occurred!',
-              //     position: 'top',
-              //   });
+              Toast.show({
+                type: 'error',
+                text1: 'Some error has occurred!',
+                position: 'top',
+              });
             });
         }
 
-        // Toast.show({
-        //   type: 'success',
-        //   text1: 'Login Successfull!',
-        //   position: 'top',
-        // });
-        // console.log('user l;ogin 2', res);
-        // AsyncStorage.setItem('user', JSON.stringify(res));
-        // updateUser(res);
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successfull!',
+          position: 'top',
+        });
+        console.log('user l;ogin 2', res);
+        AsyncStorage.setItem('user', JSON.stringify(res));
+        updateUser(res);
       })
       .catch((err) => {
         console.log('login err', err);
@@ -151,6 +151,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Toast position={'top'} />
       <StatusBar
         animated={true}
         backgroundColor={'black'}
@@ -190,7 +191,7 @@ const Login = () => {
           <TouchableOpacity
             onPress={() => {
               console.log('clicked');
-              onGoogleButtonPress();
+              HandleSignIn();
             }}
             style={{
               backgroundColor: '#fff',
