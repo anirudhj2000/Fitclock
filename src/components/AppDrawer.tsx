@@ -5,6 +5,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 import useUserStore from '../utils/store';
 import { colors } from '../utils/colors';
+import Toast from 'react-native-toast-message';
 
 const { height, width } = Dimensions.get('window');
 
@@ -41,6 +42,11 @@ const AppDrawerComponent = ({ navigation }: DrawerContentComponentProps) => {
         AsyncStorage.clear();
         updateUser(null);
         console.log('logged out');
+        Toast.show({
+          position: 'top',
+          type: 'success',
+          text1: 'Logged out successfully!!',
+        });
       });
   };
 

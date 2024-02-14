@@ -34,7 +34,9 @@ export default function App() {
   };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Toast />
+      <View style={{ zIndex: 10 }}>
+        <Toast />
+      </View>
       <NavigationContainer>
         {userData ? <AppDrawerNavigator /> : <LoginStackNavigator />}
       </NavigationContainer>
